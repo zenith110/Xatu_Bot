@@ -1,0 +1,10 @@
+# Bin folder
+bin/
+
+# Package folder with all the stuff needed for Go
+pkg/
+
+# The config file for the bot
+config.json
+
+api_keys/
