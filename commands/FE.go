@@ -4,12 +4,10 @@ import (
 	"time"
 	"github.com/bwmarrin/discordgo"
 	"fmt"
-	"./command_utils"
 	"os"
 	"io/ioutil"
 	"strings"
 	"regexp"
-	"strconv"
 )
 type FE struct{
 	fe_term,
