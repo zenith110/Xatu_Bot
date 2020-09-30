@@ -8,3 +8,5 @@ pkg/
 config.json
 
 api_keys/
+
+token.json

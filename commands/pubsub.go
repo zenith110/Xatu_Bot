@@ -22,13 +22,18 @@ func Pubsub(s *discordgo.Session, m *discordgo.MessageCreate)int{
 			// If we have a secondary argument continue down this conditional
 			if(len(m.Content) > 7) {
 			// Grabs the name from the user who inputted it
-			secondaryArgs := m.Content[8:]
+			secondary_args := m.Content[8:]
 			// Lowercases it for ease of use into the database
-			secondaryArgsLower := strings.ToLower(secondaryArgs)
-
+			secondary_args = strings.ToLower(secondary_args)
+			
 			// Removes all spaces in the name
-			finalArg := strings.Replace(secondaryArgsLower, " ", "-", -1)
-			fetchurl := "https://pubsub-api.dev/subs/?name=" + finalArg
+			if !strings.Contains(secondary_args ," "){
+				fmt.Println("Let's not modify it!")
+			}else{
+				fmt.Println("Found a space, let's strip it!")
+				secondary_args = strings.Replace(secondary_args, " ", "-", -1)
+			}
+			fetchurl := "https://pubsub-api.dev/subs/?name=" + secondary_args
 
 			// Sends a post request to the url above
 			req, err := http.Get(fetchurl)
@@ -41,7 +46,7 @@ func Pubsub(s *discordgo.Session, m *discordgo.MessageCreate)int{
 			bodyText := string(bodyData)
 			// Returns an error whenever we get something that's not in the database
 			if len(bodyData) < 300{
-				s.ChannelMessageSend(m.ChannelID, "It seems that " + secondaryArgsLower + " is currently not in the database!\nPlease try again later")
+				s.ChannelMessageSend(m.ChannelID, "It seems that " + secondary_args + " is currently not in the database!\nPlease try again later")
 				return 0
 			}
 

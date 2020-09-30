@@ -117,7 +117,7 @@ func FE_write(data FE) []byte{
          "\n}"
         return []byte(json_data)
 }
-func FE_data_grabber() string{
+func FE_data_grabber(value string) string{
         var data FE
         b, err := ioutil.ReadFile("api_keys/credentials.json")
         if err != nil {
@@ -137,7 +137,8 @@ func FE_data_grabber() string{
         }
 
         spreadsheetId := "1ePlnBEed-PA9Ni8xWwc67MnHc8CqQMWd_ugFZafaPeo"
-        readRange := "FE!A2:V"
+        fmt.Println(string(value))
+        readRange := "FE!A" + string(value) + ":V"
         resp, err := srv.Spreadsheets.Values.Get(spreadsheetId, readRange).Do()
         if err != nil {
                 log.Fatalf("Unable to retrieve data from sheet: %v", err)

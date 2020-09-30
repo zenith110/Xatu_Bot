@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"regexp"
+	"strconv"
 )
 type FE struct{
 	fe_term,
@@ -132,25 +133,8 @@ func FeData(s *discordgo.Session, m *discordgo.MessageCreate) {
 		fmt.Println("File exist, now opening")
 		openJsonFile(s, m, "FE/" + fe_exam_term + ".json", fe_exam_term) 
 	  } else {
-		fmt.Println("File does not exist, making!")
-		fe := command_utils.FE_data_grabber()
-		fmt.Println(fe)
-		openJsonFile(s, m, "FE/" + fe_exam_term + ".json", fe_exam_term)
+		s.ChannelMessageSend(m.ChannelID, "Sorry, but " + fe_exam_term + " is currently not availabe") 
 	  }
-	// fe := command_utils.FE_data_grabber()
-	// embed := &discordgo.MessageEmbed{
-	// 	Author: &discordgo.MessageEmbedAuthor{},
-	// 	Color:  0x00ff00, // Green
-	// 	Fields: []*discordgo.MessageEmbedField{
-	// 		&discordgo.MessageEmbedField{
-	// 			Name:   "Term",
-	// 			Value:  "Data structures A question 1 average: ",
-	// 			Inline: true,
-	// 		},
-	// 	},
-	// 	Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
-	// }
-	// s.ChannelMessageSendEmbed(m.ChannelID, embed)
 	}else{
 		fmt.Println("No term provided, randomizing!")
 	}		
