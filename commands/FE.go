@@ -4,10 +4,10 @@ import (
 	"time"
 	"github.com/bwmarrin/discordgo"
 	"fmt"
-	"os"
 	"io/ioutil"
 	"strings"
 	"regexp"
+	"net/http"
 )
 type FE struct{
 	fe_term,
@@ -65,75 +65,97 @@ func jsonRipper(textMatch string, text string)string{
 	return removeData
 }
 func finder(what_to_find string, bodyText string) string{
-	data_pattern := regexp.MustCompile(fmt.Sprintf(`.*"%s" : .*`, what_to_find))
+	data_pattern := regexp.MustCompile(fmt.Sprintf(`.*"%s": .*`, what_to_find))
 	data_match := data_pattern.FindStringSubmatch(bodyText)
+	fmt.Println(data_match)
 	fmt.Println(data_match[0] + " is the match!")
 	data := jsonRipper(data_match[0], what_to_find)
 	fmt.Println(data + " the current data")
 	return data
 }
 // Manipulates bytes from the json to reassemble into the struct
-func assignVals(byteValue []byte) FE{
+func assignVals(byteValue string) FE{
+	fmt.Println("In assign vals")
 	var fe FE
-	fe.fe_term = finder("fe_term", string(byteValue))
-	fe.fe_exam = finder("fe_exam", string(byteValue))
-	fe.fe_solutions = finder("fe_exam_solutions", string(byteValue))
-	fe.average_score_section_I = finder("average_score_section_I", string(byteValue))
-	fe.average_score_section_II = finder("average_score_section_II", string(byteValue))
-	fe.average_score_total = finder("average_score_total", string(byteValue))
-	fe.passing_line = finder("passing_line", string(byteValue))
-	fe.number_of_passing = finder("number_of_passing", string(byteValue))
-	fe.number_of_students = finder("number_of_students", string(byteValue))
-	fe.pass_rate = finder("pass_rate", string(byteValue))
-	fe.DS_A1 = finder("DS_A1", string(byteValue))
-	fe.DS_A2 = finder("DS_A2", string(byteValue))
-	fe.DS_A3 = finder("DS_A3", string(byteValue))
-	fe.DS_B1 = finder("DS_B1", string(byteValue))
-	fe.DS_B2 = finder("DS_B2", string(byteValue))
-	fe.DS_B3 = finder("DS_B3", string(byteValue))
+	fe.fe_term = finder("fe_term", byteValue)
+	fe.fe_exam = finder("fe_exam", byteValue)
+	fe.fe_solutions = finder("fe_exam_solutions", byteValue)
+	fe.average_score_section_I = finder("average_score_section_I", byteValue)
+	fe.average_score_section_II = finder("average_score_section_II", byteValue)
+	fe.average_score_total = finder("average_score_total", byteValue)
+	fe.passing_line = finder("passing_line", byteValue)
+	fe.number_of_passing = finder("number_of_passing", byteValue)
+	fe.number_of_students = finder("number_of_students", byteValue)
+	fe.pass_rate = finder("pass_rate", byteValue)
+	fe.DS_A1 = finder("DS_A1", byteValue)
+	fe.DS_A2 = finder("DS_A2", byteValue)
+	fe.DS_A3 = finder("DS_A3", byteValue)
+	fe.DS_B1 = finder("DS_B1", byteValue)
+	fe.DS_B2 = finder("DS_B2", byteValue)
+	fe.DS_B3 = finder("DS_B3", byteValue)
 	
-	fe.AA1 = finder("AA1", string(byteValue))
-	fe.AA2 = finder("AA2", string(byteValue))
-	fe.AA3 = finder("AA3", string(byteValue))
-	fe.AB1 = finder("AB1", string(byteValue))
-	fe.AB2 = finder("AB2", string(byteValue))
-	fe.AB3 = finder("AB3", string(byteValue))
+	fe.AA1 = finder("AA1", byteValue)
+	fe.AA2 = finder("AA2", byteValue)
+	fe.AA3 = finder("AA3", byteValue)
+	fe.AB1 = finder("AB1", byteValue)
+	fe.AB2 = finder("AB2", byteValue)
+	fe.AB3 = finder("AB3", byteValue)
 	return fe
 }
-func openJsonFile(s *discordgo.Session, m *discordgo.MessageCreate, file string, fe_term string){
-	json_file, err := os.Open(file)
-	if err != nil {
-		fmt.Println(err)
-	}
+func web_request(name string) FE{
+	fetchurl := "http://ucf-cs-fe-api.tk/exam/?name=" + name
 
-	byteValue, _ := ioutil.ReadAll(json_file)
-	fe := assignVals(byteValue)
-	values := fe_value(fe)
-	s.ChannelMessageSend(m.ChannelID, "As predicted, here is the " + fe_term + " exam!")
-	embed := &discordgo.MessageEmbed{
-		Author: &discordgo.MessageEmbedAuthor{},
-		Color:  0x00ff00, // Green
-		Fields: []*discordgo.MessageEmbedField{
-			&discordgo.MessageEmbedField{
-				Name:   fe.fe_term + " Stats",
-				Value:  values,
-				Inline: true,
-			},
-		},
-		Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
+	// Sends a post request to the url above
+	req, err := http.Get(fetchurl)
+	// Will always be NIL, ignore
+	if err == nil{
 	}
-	s.ChannelMessageSendEmbed(m.ChannelID, embed)
+			
+	// // Puts the body text bytes to be read into a variable so we can check length
+	bodyData, err := ioutil.ReadAll(req.Body)
+	bodyText := string(bodyData)
+	// // Returns an error whenever we get something that's not in the database
+	// // if len(bodyData) < 300{
+	// // 	s.ChannelMessageSend(m.ChannelID, "It seems that " + fe_exam_term + " is currently not in the database!\nPlease try again later")
+	// // 	return 0
+	// // }
+	fe := assignVals(bodyText)
+	return fe
 }
-func FeData(s *discordgo.Session, m *discordgo.MessageCreate) {
+func FeData(s *discordgo.Session, m *discordgo.MessageCreate) int {
 	if(len(m.Content) > 3){
-	fe_exam_term := strings.ToUpper(string(m.Content[4])) + strings.ToLower(m.Content[5:])
-	if _, err := os.Stat("FE/" + fe_exam_term + ".json"); err == nil {
-		fmt.Println("File exist, now opening")
-		openJsonFile(s, m, "FE/" + fe_exam_term + ".json", fe_exam_term) 
-	  } else {
-		s.ChannelMessageSend(m.ChannelID, "Sorry, but " + fe_exam_term + " is currently not availabe") 
-	  }
+			fe_exam_term := strings.ToUpper(string(m.Content[4])) + strings.ToLower(m.Content[5:])
+			fe_exam_term = strings.Replace(fe_exam_term, " ", "-", -1)
+			fe := web_request(fe_exam_term)
+			values := fe_value(fe)
+			fe_data := &discordgo.MessageEmbed{
+				Color: 0x00ff00, // Green
+				Fields: []*discordgo.MessageEmbedField{
+					&discordgo.MessageEmbedField{
+						Name:   fe.fe_term + " Data",
+						Value:  values,
+						Inline: true,
+					},
+				},
+				Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
+			}
+			s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
 	}else{
-		fmt.Println("No term provided, randomizing!")
-	}		
+		s.ChannelMessageSend(m.ChannelID, "No term provided, randomizing!")
+		fe := web_request("")
+		values := fe_value(fe)
+		fe_data := &discordgo.MessageEmbed{
+			Color: 0x00ff00, // Green
+			Fields: []*discordgo.MessageEmbedField{
+				&discordgo.MessageEmbedField{
+					Name:   fe.fe_term + " Data",
+					Value:  values,
+					Inline: true,
+				},
+			},
+			Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
+		}
+		s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
+	}
+	return 0	
 }
