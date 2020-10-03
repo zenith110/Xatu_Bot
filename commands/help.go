@@ -1,14 +1,7 @@
 package commands
 
 import (
-	// "time"
 	"github.com/bwmarrin/discordgo"
-	// "fmt"
-	// "./command_utils"
-	// "os"
-	// "io/ioutil"
-	// "strings"
-	// "regexp"
 )
 
 func Help(s *discordgo.Session, m *discordgo.MessageCreate) {

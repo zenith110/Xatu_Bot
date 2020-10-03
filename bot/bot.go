@@ -52,13 +52,13 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}else if m.Content == "!countdown"{
 			commands.Countdown(s, m)
 		}else if strings.Contains(m.Content,"!pubsub"){
-			commands.Pubsub(s, m)
+			commands.Pubsub_fetch(s, m)
 		}else if strings.Contains(m.Content,"!FE"){
 			commands.FeData(s, m)
-		}
-		}else if strings.Contains(m.Content, "!help"){
+		}else if m.Content == "!help"{
 			commands.Help(s, m)
 		}
 	
 	}
+}
 
