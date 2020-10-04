@@ -12,5 +12,4 @@ jobs:
           cd Xatu_Bot
           git pull
         host: ${{ secrets.AWS_IP }}
-        key: ${{ secrets.AWS_KEY}}
-#         args: -i FE_Bot.pem
+        args: -i ../FE_Bot.pem
