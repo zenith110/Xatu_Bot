@@ -12,5 +12,5 @@ jobs:
           cd Xatu_Bot
           git pull
         user: ${{ secrets.AWS_IP }}
-        key: ${{ secrets.AWS_KEY}
+        key: ${{ secrets.AWS_KEY}}
         args: -i key
