@@ -1,5 +1,5 @@
   
 {
-    "Token": {BOT_TOKEN},
+    "Token": "{BOT_TOKEN}",
     "BotPrefix": "!"
 }
