@@ -1,0 +1,16 @@
+name: Remote ssh
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH
+      uses: fifsky/ssh-action@master
+      with:
+        command: |
+          cd Xatu_Bot
+          git pull
+        user: ${{ secrets.AWS_IP }}
+        key: ${{ secrets.AWS_KEY}
+        args: -i key
