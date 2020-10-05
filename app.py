@@ -9,8 +9,10 @@ def update_data():
     print("Beginning git pull")
     process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
     gitpull = process.communicate()[0]
-    print("Git pull is done, now let's run the docker container!")
-                
+    print("Git pull is done, now let's run the bot!")
+    bot = subprocess.run(["sudo", "nohup", "go", "run","main.go"], stdout=subprocess.PIPE)
+    bot_info = bot.communicate()[0]
+
                
 @app.route("/", methods =["POST", "GET"])
 def index():
