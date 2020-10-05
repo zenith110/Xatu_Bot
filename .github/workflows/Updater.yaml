@@ -28,48 +28,7 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-    - name: Add config.json 
-      uses: jossef/action-set-json-field@v1
-      with:
-        file: config.json
-        field: Token
-        value: ${{secrets.BOT_TOKEN}}
-      
-    - name: Build
-      id: docker
-      run: |
-        go build main.go
-    - name: Move
-      run: |
-        echo "Now moving the executable into the folder!"
-        mv main executables
 
-    - name: Commit files
-      id: commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git add executables/main
-        git status
-        echo "Let's add the main executable to our push!"
-        if [-z "$(git status --porcelain)"]; then
-           echo "::set-output name=push::false"
-        else
-           git commit -m "Add changes" -a
-           echo "::set-output name=push::true"
-        fi
-      shell: bash
-      
-    - name: Push changes
-      if: steps.commit.outputs.push == 'true'
-      uses: ad-m/github-push-action@master
-      with:
-         github_token: ${{ secrets.GITHUB_TOKEN }}
-     
-
-      
-    - name: Test
-      run: go test -v .
     
     - name: Hit Webhook
       run: curl ${{ secrets.UPDATE_HOOK}} 
