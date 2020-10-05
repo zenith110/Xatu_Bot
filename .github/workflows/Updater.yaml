@@ -39,7 +39,11 @@ jobs:
       id: docker
       run: |
         go build main.go
-      
+    - name: Move
+      run: |
+        echo "Now moving the executable into the folder!"
+        mv main executables
+
     - name: Commit files
       id: commit
       run: |
@@ -62,8 +66,7 @@ jobs:
       with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
-    - name: Move
-      run: mv main executables
+
       
     - name: Test
       run: go test -v .
