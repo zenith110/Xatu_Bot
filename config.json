@@ -1,4 +1,0 @@
-{
-  "Token": ${{ secrets.BOT_TOKEN }},
-  "BotPrefix": "!"
-}
