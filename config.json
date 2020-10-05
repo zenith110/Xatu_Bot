@@ -1,4 +1,4 @@
 {
-  "Token": "NzE3MTI3MzMwMTE1NjE2ODI4.XtVy3w.UqWJ0QDtIa8dH1s-OpQz_c57eq4",
+  "Token": ${{secrets.BOT_TOKEN}},
   "BotPrefix": "!"
 }
