@@ -55,7 +55,7 @@ jobs:
          github_token: ${{ secrets.GITHUB_TOKEN }}
      
     - name: Move
-      run: mv main.exe executables
+      run: mv main executables
       
     - name: Test
       run: go test -v .
