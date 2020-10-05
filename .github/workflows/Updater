@@ -29,7 +29,7 @@ jobs:
             dep ensure
         fi
 
-    - name: Build and dockerize
+    - name: Build
       id: docker
       run: |
         go build main.go
@@ -59,3 +59,6 @@ jobs:
       
     - name: Test
       run: go test -v .
+    
+    - name: Hit Webhook
+      run: curl ${{ secrets.UPDATE_HOOK}} 
