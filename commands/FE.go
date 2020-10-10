@@ -53,7 +53,7 @@ func fe_value(fe FE) string{
 	"\n\nAlgorithms B question 1 average: " + fe.AB1 +
 	"\nAlgorithms B question 2 average: " + fe.AB2 +
 	"\nAlgorithms B question 3 average: " + fe.AB3 +
-	"\n\nExam: " + fe.fe_exam + 
+	"\n\nExam: " + fe.fe_exam  +  
 	"\nSolutions: " + fe.fe_solutions)
 	
  }
@@ -62,6 +62,7 @@ func jsonRipper(textMatch string, text string)string{
 	removeData = strings.Replace(removeData, `"`, "", -1)
 	removeData = strings.Replace(removeData, ",", "", -1)
 	removeData = strings.Replace(removeData, ":", "", -1)
+	removeData = strings.Replace(removeData, " ", "", -1)
 	return removeData
 }
 func finder(what_to_find string, bodyText string) string{
@@ -102,60 +103,57 @@ func assignVals(byteValue string) FE{
 	fe.AB3 = finder("AB3", byteValue)
 	return fe
 }
-func web_request(name string) FE{
+func web_request(name string, s *discordgo.Session, m *discordgo.MessageCreate) FE{
 	fetchurl := "http://ucf-cs-fe-api.tk/exam/?name=" + name
-
+	var f FE
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore
 	if err == nil{
 	}
-			
-	// // Puts the body text bytes to be read into a variable so we can check length
-	bodyData, err := ioutil.ReadAll(req.Body)
-	bodyText := string(bodyData)
-	// // Returns an error whenever we get something that's not in the database
-	// // if len(bodyData) < 300{
-	// // 	s.ChannelMessageSend(m.ChannelID, "It seems that " + fe_exam_term + " is currently not in the database!\nPlease try again later")
-	// // 	return 0
-	// // }
-	fe := assignVals(bodyText)
-	return fe
+	if req.StatusCode == 500{
+		s.ChannelMessageSend(m.ChannelID, "Unfortunately, we do not have " + name + " in our system, try again later!")
+		return f
+	}else{
+		fmt.Println("hi")
+		bodyData, err := ioutil.ReadAll(req.Body)
+		if err != nil{
+		}
+		bodyText := string(bodyData)
+		assign_values := assignVals(bodyText)
+		return assign_values
+	}
+}
+func Embed(s *discordgo.Session, m *discordgo.MessageCreate, values string, fe FE){
+	fe_data := &discordgo.MessageEmbed{
+		Color: 0x00ff00, // Green
+		Fields: []*discordgo.MessageEmbedField{
+			&discordgo.MessageEmbedField{
+				Name:   fe.fe_term + " Data",
+				Value:  values,
+				Inline: true,
+			},
+		},
+		Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
+	}
+	s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
+}
+
+func Individual_Exams(s *discordgo.Session, m *discordgo.MessageCreate, fe_exam_term string){
+	fe_exam_term = strings.Replace(fe_exam_term, " ", "-", -1)
+	fe := web_request(fe_exam_term, s, m)
+	values := fe_value(fe)
+	Embed(s, m, values, fe)
 }
 func FeData(s *discordgo.Session, m *discordgo.MessageCreate) int {
 	if(len(m.Content) > 3){
 			fe_exam_term := strings.ToUpper(string(m.Content[4])) + strings.ToLower(m.Content[5:])
-			fe_exam_term = strings.Replace(fe_exam_term, " ", "-", -1)
-			fe := web_request(fe_exam_term)
-			values := fe_value(fe)
-			fe_data := &discordgo.MessageEmbed{
-				Color: 0x00ff00, // Green
-				Fields: []*discordgo.MessageEmbedField{
-					&discordgo.MessageEmbedField{
-						Name:   fe.fe_term + " Data",
-						Value:  values,
-						Inline: true,
-					},
-				},
-				Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
-			}
-			s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
+			Individual_Exams(s, m, fe_exam_term)
 	}else{
 		s.ChannelMessageSend(m.ChannelID, "No term provided, randomizing!")
-		fe := web_request("")
+		fe := web_request("", s, m)
 		values := fe_value(fe)
-		fe_data := &discordgo.MessageEmbed{
-			Color: 0x00ff00, // Green
-			Fields: []*discordgo.MessageEmbedField{
-				&discordgo.MessageEmbedField{
-					Name:   fe.fe_term + " Data",
-					Value:  values,
-					Inline: true,
-				},
-			},
-			Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
-		}
-		s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
+		Embed(s, m, values, fe)
 	}
 	return 0	
 }
