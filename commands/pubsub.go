@@ -37,34 +37,45 @@ func embed(sub Pubsub, value_string string) *discordgo.MessageEmbed{
 	}
 	return Embed
 }
+
 // Strips of data we text matched with
-func jsonParser(textMatch string, text string) string {
+func Json_Parser(textMatch string, text string) string {
 	removeData := strings.Replace(textMatch, text, "", -1)
 	removeData = strings.Replace(removeData, `"`, "", -1)
 	removeData = removeData[6:]
 	removeData = strings.Replace(removeData, ",", "", -1)
 	return removeData
 }
-// Parses the data using regex to find the specific instance of that string
-func parser(what_to_find string, text string) string{
+
+// Handles the dates for the sub so it's stripped correctly
+func Dates(what_to_find, text string) string{
 	// // Parses the text for the subname
 	data_pattern := regexp.MustCompile(fmt.Sprintf(`.*"%s": .*`, what_to_find))
 	data_match := data_pattern.FindStringSubmatch(text)
-	data := jsonParser(data_match[0], what_to_find)
+	data := Json_Parser(data_match[0], what_to_find)
+	return data
+}
+
+// Parses the data using regex to find the specific instance of that string
+func Parser(what_to_find string, text string) string{
+	// // Parses the text for the subname
+	data_pattern := regexp.MustCompile(fmt.Sprintf(`.*"%s": .*`, what_to_find))
+	data_match := data_pattern.FindStringSubmatch(text)
+	data := Json_Parser(data_match[0], what_to_find)
 	data = strings.Replace(data, `-`, " ", -1)
 	return data
 }
 
-func assign_vals(text string) Pubsub{
+func Assign_Values(text string) Pubsub{
 	var sub Pubsub
-	sub.sub_name = parser("sub_name", text)
-	sub.last_sale = parser("last_sale", text)
-	sub.status = parser("status", text)
-	sub.price = parser("price", text)
-	sub.image = parser("image", text)
+	sub.sub_name = Parser("sub_name", text)
+	sub.last_sale = Dates("last_sale", text)
+	sub.status = Parser("status", text)
+	sub.price = Parser("price", text)
+	sub.image = Parser("image", text)
 	return sub
 }
-func web_hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubsub{
+func Web_Hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubsub{
 	var pub Pubsub
 	fetchurl := "https://pubsub-api.dev/subs/?name=" + text
 	// Sends a post request to the url above
@@ -80,12 +91,12 @@ func web_hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubs
 		if err == nil{
 		}
 		bodyText := string(bodyData)
-		assign_values := assign_vals(bodyText)
+		assign_values := Assign_Values(bodyText)
 		return assign_values
 	}
 }
 
-func Help_info(state *discordgo.Session, m *discordgo.MessageCreate){
+func Help_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 	fetchurl := "https://pubsub-api.dev/allsubs/"
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -133,7 +144,7 @@ func Individual_Subs(s *discordgo.Session, m *discordgo.MessageCreate, secondary
 		secondary_args = strings.Replace(secondary_args, " ", "-", -1)
 	
 	}
-	sub := web_hit(secondary_args, s, m)
+	sub := Web_Hit(secondary_args, s, m)
 
 	onSaleEmbed := embed(sub, "Currently on sale from " + sub.last_sale + " for " + sub.price)
 	notOnSaleEmbed := embed(sub, "Last seen on sale from " + sub.last_sale + " for " + sub.price)
@@ -155,17 +166,16 @@ func Pubsub_fetch(s *discordgo.Session, m *discordgo.MessageCreate){
 			secondary_args = strings.ToLower(secondary_args)
 			// If help is found, run the help sub command, otherwise run the pubsub check
 			if strings.Contains(secondary_args, "help"){
-				Help_info(s, m)
+				Help_Info(s, m)
 			}else{
 				Individual_Subs(s, m, secondary_args)
 			}
 
 	// Randomize the pubsub if we have just !pubsub
 	}else if(len(m.Content) <= 7){
-			sub := web_hit("", s, m)
+			sub := Web_Hit("", s, m)
 			onSaleEmbed := embed(sub, "Currently on sale from " + sub.last_sale + " for " + sub.price)
 			notOnSaleEmbed := embed(sub, "Last seen on sale from " + sub.last_sale + " for " + sub.price)
-
 			if(sub.status == "True"){
 				// Sends message
 				s.ChannelMessageSendEmbed(m.ChannelID, onSaleEmbed)
