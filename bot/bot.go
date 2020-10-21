@@ -57,6 +57,8 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			commands.FeData(s, m)
 		}else if m.Content == "!help"{
 			commands.Help(s, m)
+		}else if strings.Contains(m.Content, "!dog"){
+			commands.Doggo_Runner(s, m)
 		}
 	
 	}

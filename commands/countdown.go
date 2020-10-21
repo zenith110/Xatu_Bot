@@ -13,10 +13,9 @@ func Date(year, month, day int) time.Time {
 
 func Countdown(s *discordgo.Session, m *discordgo.MessageCreate) {
 	currentTime := time.Now()
-	springFe := Date(2021, 01, 16)
-	daysBetween := fmt.Sprintf("%.0f", math.Round(springFe.Sub(currentTime).Hours()/ 24))
+	nextFe := Date(2021, 01, 16)
+	daysBetween := fmt.Sprintf("%.0f", math.Round(nextFe.Sub(currentTime).Hours()/ 24))
 
-	fmt.Println(daysBetween) // 366
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  0x00ff00, // Green

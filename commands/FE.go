@@ -35,25 +35,25 @@ type FE struct{
 	status string
 }
 func fe_value(fe FE) string{
-	return ("\nAverage score for section I: " + fe.average_score_section_I + 
-	"\nAverage score for section II: " + fe.average_score_section_II + 
-	"\nAverage score total: " + fe.average_score_total +
-	"\nPassing line: " + fe.passing_line +
-	"\nNumber of passing: " + fe.number_of_passing +
+	return ("\nAverage score for section I: " + fe.average_score_section_I + "%" + 
+	"\nAverage score for section II: " + fe.average_score_section_II + "%" +
+	"\nAverage score total: " + fe.average_score_total + "%" +
+	"\nPassing line: " + fe.passing_line + "%" +
+	"\nNumber of passing: " + fe.number_of_passing + 
 	"\nNumber of students "  + fe.number_of_students + 
-	"\nPass rate: " + fe.pass_rate +
-	"\nData structures A question 1 average: " + fe.DS_A1 +
-	"\nData structures A question 2 average: " + fe.DS_A2 +
-	"\nData structures A question 3 average: " + fe.DS_A3 + 
-	"\n\nData structures B question 1 average: " + fe.DS_B1 +
-	"\nData structures B question 2 average: " + fe.DS_B2 +
-	"\nData structures B question 3 average: " + fe.DS_B3 +
-	"\n\nAlgorithms A question 1 average: " + fe.AA1 +
-	"\nAlgorithms A question 2 average: " + fe.AA2 + 
-	"\nAlgorithms A question 3 average: " + fe.AA3 +
-	"\n\nAlgorithms B question 1 average: " + fe.AB1 +
-	"\nAlgorithms B question 2 average: " + fe.AB2 +
-	"\nAlgorithms B question 3 average: " + fe.AB3 +
+	"\nPass rate: " + fe.pass_rate + "%" +
+	"\nData structures A question 1 average: " + fe.DS_A1 + "%" +
+	"\nData structures A question 2 average: " + fe.DS_A2 + "%" +
+	"\nData structures A question 3 average: " + fe.DS_A3 + "%" +
+	"\n\nData structures B question 1 average: " + fe.DS_B1 + "%" +
+	"\nData structures B question 2 average: " + fe.DS_B2 + "%" +
+	"\nData structures B question 3 average: " + fe.DS_B3 + "%" +
+	"\n\nAlgorithms A question 1 average: " + fe.AA1 + "%" +
+	"\nAlgorithms A question 2 average: " + fe.AA2 + "%" +
+	"\nAlgorithms A question 3 average: " + fe.AA3 + "%" +
+	"\n\nAlgorithms B question 1 average: " + fe.AB1 + "%" +
+	"\nAlgorithms B question 2 average: " + fe.AB2 + "%" +
+	"\nAlgorithms B question 3 average: " + fe.AB3 + "%" +
 	"\n\nExam: " + fe.fe_exam  +  
 	"\nSolutions: " + fe.fe_solutions)
 	
