@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"fmt"
 	"math"
+	"strconv"
 )
 
 func Date(year, month, day int) time.Time {
@@ -15,7 +16,13 @@ func Countdown(s *discordgo.Session, m *discordgo.MessageCreate) {
 	currentTime := time.Now()
 	nextFe := Date(2021, 01, 16)
 	daysBetween := fmt.Sprintf("%.0f", math.Round(nextFe.Sub(currentTime).Hours()/ 24))
-
+	weekBefore, err := strconv.Atoi(daysBetween)
+	if err != nil{
+		
+	}
+	if weekBefore <= 7{
+		fmt.Println("Final stretch! Best of luck. For those who haven't registered, the link is here!\nhttp://www.cs.ucf.edu/registration/exm/")
+	}
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Color:  0x00ff00, // Green

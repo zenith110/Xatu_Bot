@@ -15,6 +15,8 @@ func Help(s *discordgo.Session, m *discordgo.MessageCreate) {
 	"\n!countdown - To see how much time is left till the next FE exam is, work dilligently." +
 	"\n!stack to view some stack problems" +
 	"\n!dsn - to view some memory management problems" +
+	"\n\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!" + 
 	"\n\nYou may find my source code here: https://github.com/zenith110/Xatu_Bot```"
+
 	s.ChannelMessageSend(m.ChannelID, message)		
 }
