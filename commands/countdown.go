@@ -21,7 +21,7 @@ func Countdown(s *discordgo.Session, m *discordgo.MessageCreate) {
 		
 	}
 	if weekBefore <= 7{
-		s.ChannelMessageSend("Final stretch! Best of luck. For those who haven't registered, the link is here!\nhttp://www.cs.ucf.edu/registration/exm/")
+		s.ChannelMessageSend(m.ChannelID,"Final stretch! Best of luck. For those who haven't registered, the link is here!\nhttp://www.cs.ucf.edu/registration/exm/")
 	}
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
