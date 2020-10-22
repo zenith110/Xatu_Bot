@@ -61,6 +61,8 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			commands.Doggo_Runner(s, m)
 		}else if strings.Contains(m.Content, "!stack"){
 			commands.Stack_Runner(s, m)
+		}else if strings.Contains(m.Content, "!dsn"){
+			commands.DSN_Runner(s, m)
 		}
 	}
 	
