@@ -119,7 +119,7 @@ func Help_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 		// replace the first and last part of the string
 		s[0] = strings.Replace(s[0], `[{"name":"`, "", -1)
 		s[0] = strings.Replace(s[0], `"}`, "", -1)
-		s[len(s) - 1] = strings.Replace(s[len(s) - 1], `{"name":"`, " and ", -1)
+		s[len(s) - 1] = strings.Replace(s[len(s) - 1], `{"name":"`, "and ", -1)
 		s[len(s) - 1] = strings.Replace(s[len(s) - 1], `"}]`, "", -1)
 		s[len(s) - 1] = strings.Replace(s[len(s) - 1], `\n`, "", -1)
 		
@@ -131,7 +131,7 @@ func Help_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 		// Joins back into one giant string
 		sub_list := strings.Join(s, ", ")
 		// Sends out the pub list
-		state.ChannelMessageSend(m.ChannelID, "Hello, these are the current subs available!\n" + sub_list)
+		state.ChannelMessageSend(m.ChannelID, "```Hello, these are the current subs available!\n" + sub_list + "```")
 	}
 }
 

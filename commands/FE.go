@@ -174,8 +174,8 @@ func Help_Exam_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 		}
 		// Joins back into one giant string
 		exam_list := strings.Join(s, ", ")
-		// Sends out the pub list
-		state.ChannelMessageSend(m.ChannelID, "Hello, these are the current exams available!\n" + exam_list)
+		// Sends out the exam list
+		state.ChannelMessageSend(m.ChannelID, "```Hello, these are the current exams available!\n" + exam_list + "```")
 	}
 }
 
@@ -183,7 +183,7 @@ func Individual_Exams(s *discordgo.Session, m *discordgo.MessageCreate, fe_exam_
 	fe_exam_term = strings.Replace(fe_exam_term, " ", "-", -1)
 	fe := Web_Request(fe_exam_term, s, m)
 	if(fe.status == "500"){
-		s.ChannelMessageSend(m.ChannelID, "Unfortunately, we do not have " + fe_exam_term + " in our system, try again later!")
+		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + fe_exam_term + " in our system, try again later!```")
 	}else{
 		values := fe_value(fe)
 		Embed(s, m, values, fe)

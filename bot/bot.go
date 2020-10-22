@@ -46,21 +46,24 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if m.Author.ID == BotID {
 			return
 		}
-
+		m.Content = strings.ToLower(m.Content)
 		if m.Content == "!ping" {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
 		}else if m.Content == "!countdown"{
 			commands.Countdown(s, m)
 		}else if strings.Contains(m.Content,"!pubsub"){
 			commands.Pubsub_fetch(s, m)
-		}else if strings.Contains(m.Content,"!FE"){
+		}else if strings.Contains(m.Content,"!fe"){
 			commands.FeData(s, m)
 		}else if m.Content == "!help"{
 			commands.Help(s, m)
 		}else if strings.Contains(m.Content, "!dog"){
 			commands.Doggo_Runner(s, m)
+		}else if strings.Contains(m.Content, "!stack"){
+			commands.Stack_Runner(s, m)
 		}
-	
 	}
+	
 }
+
 
