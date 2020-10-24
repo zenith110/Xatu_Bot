@@ -106,7 +106,7 @@ func Assign_Vals(byteValue string) FE{
 }
 
 func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) FE{
-	fetchurl := "https://ucf-cs-fe-api.tk/exam/?name=" + name
+	fetchurl := "https://fetchit.dev/FE/exam/?name=" + name
 	var f FE
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -141,7 +141,7 @@ func Embed(s *discordgo.Session, m *discordgo.MessageCreate, values string, fe F
 	s.ChannelMessageSendEmbed(m.ChannelID, fe_data)
 }
 func Help_Exam_Info(state *discordgo.Session, m *discordgo.MessageCreate){
-	fetchurl := "https://ucf-cs-fe-api.tk/allexams/"
+	fetchurl := "https://fetchit.dev/FE/exams/allexams"
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore

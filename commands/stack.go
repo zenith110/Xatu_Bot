@@ -38,7 +38,7 @@ func Stack_Embed(stack Stack) *discordgo.MessageEmbed{
 	return Stack_Embed
 }
 func Random_Stack() Stack{
-	fetchurl := "https://ucf-cs-fe-api.tk/stack/?name="
+	fetchurl := "https://fetchit.dev/FE/questions/stack/?name="
 	stack := Stack{}
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -58,7 +58,7 @@ func Random_Stack() Stack{
 	}
 }
 func Individual_Stack(name string, s *discordgo.Session, m *discordgo.MessageCreate) Stack{
-	fetchurl := "https://ucf-cs-fe-api.tk/stack/?name=" + name
+	fetchurl := "https://fetchit.dev/FE/questions/stack/?name=" + name
 	stack := Stack{}
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -78,7 +78,7 @@ func Individual_Stack(name string, s *discordgo.Session, m *discordgo.MessageCre
 	}
 }
 func Help_Stack_Info(state *discordgo.Session, m *discordgo.MessageCreate){
-	fetchurl := "https://ucf-cs-fe-api.tk/allstacks/"
+	fetchurl := "https://fetchit.dev/FE/questions/allstacks/"
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore
