@@ -36,7 +36,7 @@ func DSN_Embed(dsn DSN) *discordgo.MessageEmbed{
 	return DSN_Embed
 }
 func Random_DSN() DSN{
-	fetchurl := "https://fetchit.dev/FE/questions/stack/?name="
+	fetchurl := "https://fetchit.dev/FE/questions/dsn/?name="
 	dsn := DSN{}
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -56,7 +56,7 @@ func Random_DSN() DSN{
 	}
 }
 func Individual_DSN(name string, s *discordgo.Session, m *discordgo.MessageCreate) DSN{
-	fetchurl := "https://fetchit.dev/FE/questions/stack/?name=" + name
+	fetchurl := "https://fetchit.dev/FE/questions/dsn/?name=" + name
 	dsn := DSN{}
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -76,7 +76,7 @@ func Individual_DSN(name string, s *discordgo.Session, m *discordgo.MessageCreat
 	}
 }
 func Help_DSN_Info(state *discordgo.Session, m *discordgo.MessageCreate){
-	fetchurl := "https://fetchit.dev/FE/questions/allstacks"
+	fetchurl := "https://fetchit.dev/FE/questions/alldsn/"
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore
