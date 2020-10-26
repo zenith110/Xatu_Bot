@@ -46,7 +46,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if m.Author.ID == BotID {
 			return
 		}
-		m.Content = strings.ToLower(m.Content)
+		
 		if m.Content == "!ping" {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
 		}else if m.Content == "!countdown"{
@@ -63,6 +63,8 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			commands.Stack_Runner(s, m)
 		}else if strings.Contains(m.Content, "!dsn"){
 			commands.DSN_Runner(s, m)
+		}else if strings.Contains(m.Content, "!role"){
+			commands.Role_Caller(s,m, BotID)
 		}
 	}
 	
