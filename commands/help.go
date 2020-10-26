@@ -10,6 +10,7 @@ func Help(s *discordgo.Session, m *discordgo.MessageCreate) {
 	"\n\nMisc commands:" + 
 	"\n!pubsub - You crave these sandwiches, and I shall predict when they are on sale!" +
 	"\n!dog to view good boys/good girls!" + 
+	"\n!role to assign yourself one of many roles!" + 
 	"\n\nFE specific commands:" + 
 	"\n!fe - I see you are studying for the FE, very well. Using this command, you will be allowed to get data on whichever FE you choose! I offer stats, as well as links to the exams and their solutions for your convience." + 
 	"\n!countdown - To see how much time is left till the next FE exam is, work dilligently." +
