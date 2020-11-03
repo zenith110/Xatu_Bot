@@ -12,6 +12,10 @@ import (
 	"math/rand"
 )
 
+var name string = "Dog"
+var description string = "Grab pictures of our furry friends!"
+var input string = "!dog <breed>, pass in nothing for random breed!"
+
 type DogBreeds struct {
 	Message map[string][]string `json:"message"`
 	Status  string              `json:"status"`

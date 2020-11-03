@@ -5,7 +5,8 @@ bin/
 pkg/
 
 # The config file for the bot
-config.json/
+config.json
 
 api_keys/
 
+token.json
