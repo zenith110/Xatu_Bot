@@ -29,6 +29,18 @@ jobs:
             dep ensure
         fi
 
-    
-    - name: Hit Webhook
-      run: curl ${{ secrets.UPDATE_HOOK}} 
+    - name: Docker Login
+      env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Dockerize
+      run: |
+          docker build --tag xatu .
+    - name: docker push
+      env:
+          REPO: ${{ secrets.REPO }}
+      run: |
+          docker tag xatu $REPO
+          docker push $REPO
