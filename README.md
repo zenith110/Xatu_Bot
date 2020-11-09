@@ -7,3 +7,5 @@ config.json:
     "BotPrefix": "!"
 }
 To install all dependencies, use go get and it will install everything
+
+Feel free to make issues/pull requests.
