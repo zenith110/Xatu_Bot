@@ -3,107 +3,79 @@ package commands
 import (
 	"time"
 	"github.com/bwmarrin/discordgo"
-	"fmt"
 	"io/ioutil"
 	"strings"
-	"regexp"
 	"net/http"
+	"encoding/json"
 )
-type FE struct{
-	fe_term,
-	fe_exam,
-	fe_solutions,
-	average_score_section_I,
-	average_score_section_II,
-	average_score_total, 
-	passing_line,
-	number_of_passing,
-	number_of_students,
-	pass_rate,
-	DS_A1,
-	DS_A2,
-	DS_A3,
-	DS_B1,
-	DS_B2,
-	DS_B3,
-	AA1,
-	AA2,
-	AA3,
-	AB1,
-	AB2,
-	AB3,
-	status string
+type FE struct {
+	FeTerm                string `json:"fe_term"`                 
+	FeExam                string `json:"fe_exam"`                 
+	FeExamSolutions       string `json:"fe_exam_solutions"`       
+	AverageScoreSectionI  string `json:"average_score_section_I"` 
+	AverageScoreSectionII string `json:"average_score_section_II"`
+	AverageScoreTotal     string `json:"average_score_total"`     
+	PassingLine           string `json:"passing_line"`            
+	NumberOfPassing       string `json:"number_of_passing"`       
+	NumberOfStudents      string `json:"number_of_students"`      
+	PassRate              string `json:"pass_rate"`               
+	DsA1                  string `json:"DS_A1"`                   
+	DsA2                  string `json:"DS_A2"`                   
+	DsA3                  string `json:"DS_A3"`                   
+	DsB1                  string `json:"DS_B1"`                   
+	DsB2                  string `json:"DS_B2"`                   
+	DsB3                  string `json:"DS_B3"`                   
+	Aa1                   string `json:"AA1"`                     
+	Aa2                   string `json:"AA2"`                     
+	Aa3                   string `json:"AA3"`                     
+	Ab1                   string `json:"AB1"`                     
+	Ab2                   string `json:"AB2"`                     
+	Ab3                   string `json:"AB3"` 
+	status string                    
 }
+type FE_Command struct{
+	alias []string
+	description string
+	input_example string
+	sub_commands []string
+	argugument_runner string
+}
+func FE_Command_Creator() *FE_Command{
+	var fe FE_Command
+	fe.alias = append(fe.alias, "fe", "Fe")
+	fe.description = "Recieve the stats behind a specific FE exam!"
+	fe.sub_commands = append(fe.sub_commands, "random", "stats")
+	fe.input_example = "!fe <[" + strings.Join(fe.sub_commands, ",") + "]>"
+	fe.argugument_runner = "commands.FeData(s, m)"
+	return &fe
+}
+
 func fe_value(fe FE) string{
-	return ("\nAverage score for section I: " + fe.average_score_section_I + "%" + 
-	"\nAverage score for section II: " + fe.average_score_section_II + "%" +
-	"\nAverage score total: " + fe.average_score_total + "%" +
-	"\nPassing line: " + fe.passing_line + "%" +
-	"\nNumber of passing: " + fe.number_of_passing + 
-	"\nNumber of students "  + fe.number_of_students + 
-	"\nPass rate: " + fe.pass_rate + "%" +
-	"\nData structures A question 1 average: " + fe.DS_A1 + "%" +
-	"\nData structures A question 2 average: " + fe.DS_A2 + "%" +
-	"\nData structures A question 3 average: " + fe.DS_A3 + "%" +
-	"\n\nData structures B question 1 average: " + fe.DS_B1 + "%" +
-	"\nData structures B question 2 average: " + fe.DS_B2 + "%" +
-	"\nData structures B question 3 average: " + fe.DS_B3 + "%" +
-	"\n\nAlgorithms A question 1 average: " + fe.AA1 + "%" +
-	"\nAlgorithms A question 2 average: " + fe.AA2 + "%" +
-	"\nAlgorithms A question 3 average: " + fe.AA3 + "%" +
-	"\n\nAlgorithms B question 1 average: " + fe.AB1 + "%" +
-	"\nAlgorithms B question 2 average: " + fe.AB2 + "%" +
-	"\nAlgorithms B question 3 average: " + fe.AB3 + "%" +
-	"\n\nExam: " + fe.fe_exam  +  
-	"\nSolutions: " + fe.fe_solutions)
+	return ("\nAverage score for section I: " + fe.AverageScoreSectionI + "%" + 
+	"\nAverage score for section II: " + fe.AverageScoreSectionII + "%" +
+	"\nAverage score total: " + fe.AverageScoreTotal  + "%" +
+	"\nPassing line: " + fe.PassingLine + "%" +
+	"\nNumber of passing: " + fe.NumberOfPassing  + 
+	"\nNumber of students "  + fe.NumberOfStudents + 
+	"\nPass rate: " + fe.PassRate + "%" +
+	"\nData structures A question 1 average: " + fe.DsA1 + "%" +
+	"\nData structures A question 2 average: " + fe.DsA2 + "%" +
+	"\nData structures A question 3 average: " + fe.DsA3 + "%" +
+	"\n\nData structures B question 1 average: " + fe.DsB1 + "%" +
+	"\nData structures B question 2 average: " + fe.DsB2 + "%" +
+	"\nData structures B question 3 average: " + fe.DsB3 + "%" +
+	"\n\nAlgorithms A question 1 average: " + fe.Aa1 + "%" +
+	"\nAlgorithms A question 2 average: " + fe.Aa2 + "%" +
+	"\nAlgorithms A question 3 average: " + fe.Aa3 + "%" +
+	"\n\nAlgorithms B question 1 average: " + fe.Ab1 + "%" +
+	"\nAlgorithms B question 2 average: " + fe.Ab2 + "%" +
+	"\nAlgorithms B question 3 average: " + fe.Ab3 + "%" +
+	"\n\nExam: " + fe.FeExam  +  
+	"\nSolutions: " + fe.FeExamSolutions) 
 	
  }
-func Json_Ripper(textMatch string, text string)string{
-	removeData := strings.Replace(textMatch, text,  "", -1)
-	removeData = strings.Replace(removeData, `"`, "", -1)
-	removeData = strings.Replace(removeData, ",", "", -1)
-	removeData = strings.Replace(removeData, ":", "", -1)
-	removeData = strings.Replace(removeData, " ", "", -1)
-	return removeData
-}
-func Finder(what_to_find string, bodyText string) string{
-	data_pattern := regexp.MustCompile(fmt.Sprintf(`.*"%s": .*`, what_to_find))
-	data_match := data_pattern.FindStringSubmatch(bodyText)
-	data := Json_Ripper(data_match[0], what_to_find)
-	return data
-}
-// Manipulates bytes from the json to reassemble into the struct
-func Assign_Vals(byteValue string) FE{
-	var fe FE
-	fe.fe_term = Finder("fe_term", byteValue)
-	fe.fe_exam = Finder("fe_exam", byteValue)
-	fe.fe_solutions = Finder("fe_exam_solutions", byteValue)
 
-	fe.average_score_section_I = Finder("average_score_section_I", byteValue)
-	fe.average_score_section_II = Finder("average_score_section_II", byteValue)
-	fe.average_score_total = Finder("average_score_total", byteValue)
 
-	fe.passing_line = Finder("passing_line", byteValue)
-
-	fe.number_of_passing = Finder("number_of_passing", byteValue)
-	fe.number_of_students = Finder("number_of_students", byteValue)
-	fe.pass_rate = Finder("pass_rate", byteValue)
-
-	fe.DS_A1 = Finder("DS_A1", byteValue)
-	fe.DS_A2 = Finder("DS_A2", byteValue)
-	fe.DS_A3 = Finder("DS_A3", byteValue)
-	fe.DS_B1 = Finder("DS_B1", byteValue)
-	fe.DS_B2 = Finder("DS_B2", byteValue)
-	fe.DS_B3 = Finder("DS_B3", byteValue)
-	
-	fe.AA1 = Finder("AA1", byteValue)
-	fe.AA2 = Finder("AA2", byteValue)
-	fe.AA3 = Finder("AA3", byteValue)
-	fe.AB1 = Finder("AB1", byteValue)
-	fe.AB2 = Finder("AB2", byteValue)
-	fe.AB3 = Finder("AB3", byteValue)
-	return fe
-}
 
 func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) FE{
 	fetchurl := "https://fetchit.dev/FE/exam/?name=" + name
@@ -121,20 +93,29 @@ func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) 
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil{
 		}
-		bodyText := string(bodyData)
-		assign_values := Assign_Vals(bodyText)
-		return assign_values
+
+		jsonErr := json.Unmarshal(bodyData, &f)
+		if(jsonErr != nil){
+			s.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current exam list, please try again later")
+		}
+		return f
 	}
 }
 func Embed(s *discordgo.Session, m *discordgo.MessageCreate, values string, fe FE){
 	fe_data := &discordgo.MessageEmbed{
-		Color: 0x00ff00, // Green
+		Color: 0x965146, // Green
 		Fields: []*discordgo.MessageEmbedField{
 			&discordgo.MessageEmbedField{
-				Name:   fe.fe_term + " Data",
+				Name:   fe.FeTerm + " Data",
 				Value:  values,
 				Inline: true,
 			},
+		},
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "Services provided by: https://fetchit.dev/",
+		},
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
+			URL: "https://img.pokemondb.net/sprites/sword-shield/normal/xatu.png",
 		},
 		Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
 	}

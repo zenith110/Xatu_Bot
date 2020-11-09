@@ -157,7 +157,7 @@ func Individual_Subs(s *discordgo.Session, m *discordgo.MessageCreate, secondary
 		}
 }
 
-func Pubsub_fetch(s *discordgo.Session, m *discordgo.MessageCreate){
+func Pubsub_Fetch(s *discordgo.Session, m *discordgo.MessageCreate){
 			// If we have a secondary argument continue down this conditional
 			if(len(m.Content) > 7) {
 			// Grabs the name from the user who inputted it

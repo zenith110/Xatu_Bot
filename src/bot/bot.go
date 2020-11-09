@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"../config"
 	"github.com/bwmarrin/discordgo"
-	"../commands"
 	"strings"
+	"../commands"
+	// "reflect"
+	// "errors"
 )
 
 var BotID string
@@ -42,32 +44,30 @@ func Start() {
 }
 
 func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
+	
 	if strings.HasPrefix(m.Content, config.BotPrefix) {
 		if m.Author.ID == BotID {
 			return
 		}
+		split_arguments := strings.Split(m.Content, " ")
+		inital_argument := strings.ToLower(split_arguments[0])
 		
 		if m.Content == "!ping" {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
-		}else if m.Content == "!countdown"{
+		}else if inital_argument == "!countdown"{
 			commands.Countdown(s, m)
 		}else if strings.Contains(m.Content,"!pubsub"){
-			commands.Pubsub_fetch(s, m)
+			commands.Pubsub_Fetch(s, m)
 		}else if strings.Contains(m.Content,"!fe"){
 			commands.FeData(s, m)
-		}else if m.Content == "!help"{
+		}else if inital_argument == "!help"{
 			commands.Help(s, m)
+		}
 		}else if strings.Contains(m.Content, "!dog"){
 			commands.Doggo_Runner(s, m)
-		}else if strings.Contains(m.Content, "!stack"){
-			commands.Stack_Runner(s, m)
-		}else if strings.Contains(m.Content, "!dsn"){
-			commands.DSN_Runner(s, m)
 		}else if strings.Contains(m.Content, "!role"){
 			commands.Role_Caller(s,m, BotID)
 		}
 	}
 	
-}
-
-
+	

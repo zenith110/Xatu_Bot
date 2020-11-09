@@ -1,5 +1,4 @@
 package commands
-
 import (
 	"time"
 	"github.com/bwmarrin/discordgo"
@@ -12,15 +11,18 @@ import (
 	"math/rand"
 )
 
-var name string = "Dog"
-var description string = "Grab pictures of our furry friends!"
-var input string = "!dog <breed>, pass in nothing for random breed!"
 
 type DogBreeds struct {
 	Message map[string][]string `json:"message"`
 	Status  string              `json:"status"`
 }
-
+type Dog_Command struct{
+	alias []string
+	description string
+	input_example string
+	sub_commands []string
+	argugument_runner string
+}
 type Dog struct{
 	name,
 	image,
@@ -29,7 +31,7 @@ type Dog struct{
 // Exports the data for when we parse the json file from the server
 func dog_embed(dog Dog) *discordgo.MessageEmbed{
 	dog_Embed := &discordgo.MessageEmbed{
-		Color: 0x00ff00, // Green
+		Color: 0x965146, // Green
 		Fields: []*discordgo.MessageEmbedField{
 			&discordgo.MessageEmbedField{
 				Name:   dog.name,
@@ -41,7 +43,12 @@ func dog_embed(dog Dog) *discordgo.MessageEmbed{
 		Image: &discordgo.MessageEmbedImage{
 			URL: dog.image,
 		},
-
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: "Services provided by: https://dog.ceo/",
+		},
+		Thumbnail: &discordgo.MessageEmbedThumbnail{
+			URL: "https://img.pokemondb.net/sprites/sword-shield/normal/xatu.png",
+		},
 		Timestamp: time.Now().Format(time.RFC3339), // Discord wants ISO8601; RFC3339 is an extension of ISO8601 and should be completely compatible.
 	}
 	return dog_Embed
@@ -112,7 +119,9 @@ func Random_Dog(s *discordgo.Session, m *discordgo.MessageCreate) Dog{
 	return Dog
 }
 
+
 func Doggo_Runner(s *discordgo.Session, m *discordgo.MessageCreate){
+	
 	if (len(m.Content) > 4){
 		Dog_Name := strings.ToLower(string(m.Content[5:]))
 
