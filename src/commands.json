@@ -1,56 +1,55 @@
 {
-  "commands": [
-    {
-      "command-prefix": "!countdown",
-      "name": "countdown",
-      "description": "Use to count down the days left till the FE!",
-      "example": "!countdown<>",
-    },
-    {
-      "command-prefix": "!fe",
-      "name": "fe",
-      "description": "Use to get information about the FE itself",
-      "example": "!fe <sub-command> <term-year>",
-    },
-    {
-      "command-prefix": "!pubsub",
-      "name": "pubsub",
-      "description": "Use to get information about the popular subs!",
-      "example": "!pubsub <sub>",
-      "sub-commands": [
-        "random",
-        "help"
-      ]
-    },
-    {
-      "command-prefix": "!problem",
-      "name": "problem",
-      "description": "Use to grab a problem from a FE!",
-      "example": "!problem <sub-command> <year-term>",
-      "sub-commands": [
-        "dsn",
-        "stack",
-        "bst",
-        "tries",
-        "help"
-      ]
-    },
-    {
-      "command-prefix": "!dog",
-      "name": "dog",
-      "description": "Use to get pictures of your friendly doggos!",
-      "example": "!dog <breed>",
-    },
-    {
-      "command-prefix": "!role",
-      "name": "role",
-      "description": "Use to control various aspects of the role system!",
-      "example": "!role <sub-command> <argument>",
-      "sub-commands": [
-        "create",
-        "join",
-        "help"
-      ]
-    }
-  ]
+	"commands": [{
+			"command-prefix": "!countdown",
+			"name": "countdown",
+			"description": "Use to count down the days left till the FE!",
+			"example": "!countdown<>"
+		},
+		{
+			"command-prefix": "!fe",
+			"name": "fe",
+			"description": "Use to get information about the FE itself",
+			"example": "!fe <sub-command> <term-year>"
+		},
+		{
+			"command-prefix": "!pubsub",
+			"name": "pubsub",
+			"description": "Use to get information about the popular subs!",
+			"example": "!pubsub <sub>",
+			"sub-commands": [
+				"random",
+				"help"
+			]
+		},
+		{
+			"command-prefix": "!problem",
+			"name": "problem",
+			"description": "Use to grab a problem from a FE!",
+			"example": "!problem <sub-command> <year-term>",
+			"sub-commands": [
+				"dsn",
+				"stack",
+				"bst",
+				"tries",
+				"help"
+			]
+		},
+		{
+			"command-prefix": "!dog",
+			"name": "dog",
+			"description": "Use to get pictures of your friendly doggos!",
+			"example": "!dog <breed>"
+		},
+		{
+			"command-prefix": "!role",
+			"name": "role",
+			"description": "Use to control various aspects of the role system!",
+			"example": "!role <sub-command> <argument>",
+			"sub-commands": [
+				"create",
+				"join",
+				"help"
+			]
+		}
+	]
 }
