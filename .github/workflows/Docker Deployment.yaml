@@ -43,8 +43,9 @@ jobs:
           bot_prefix_symbol="!"
           bot_token='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json = $bot_token,\n$bot_prex = $bot_prefix_symbol\n}" > config.json
+
+          cd ../../
           ls
-          cd ../
           docker build --tag xatu .
     - name: docker push
       env:
