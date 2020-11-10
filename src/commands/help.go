@@ -20,6 +20,7 @@ type Command struct {
 }
 
 func Values_For_Help() string{
+	fmt.Println(os.Getwd())
 	jsonFile, err := os.Open("commands.json")
 	// if we os.Open returns an error then handle it
 	if err != nil {
@@ -38,7 +39,6 @@ func Values_For_Help() string{
 	}
 	message := strings.Join(data, "\n")
 	message = message + "\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!"
-	// "\n\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!"
 	return message
 }
 func Help(s *discordgo.Session, m *discordgo.MessageCreate){
