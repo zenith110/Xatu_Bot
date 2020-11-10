@@ -107,17 +107,18 @@ func Role_Help(s *discordgo.Session, m *discordgo.MessageCreate){
 	}
 	message := strings.Join(roles, ",")
 	// Remove the reserved users from the list
-	message = strings.Replace(message, "Admin,", "", -1)
+	message = strings.Replace(message, "admin,", "", -1)
 	message = strings.Replace(message, "@everyone,", "", -1)
 	message = strings.Replace(message, "doggo,", "", -1)
 	message = strings.Replace(message, "Tomato,", "", -1)
 	message = strings.Replace(message, "memer,", "", -1)
-	message = strings.Replace(message, "deceased,", "", -1)
+	message = strings.Replace(message, "Deceased,", "", -1)
 	message = strings.Replace(message, "Resident Plague Doctor,", "", -1)
 	message = strings.Replace(message, "Cicada,", "", -1)
 	message = strings.Replace(message, "organizer,", "", -1)
 	message = strings.Replace(message, "spammer,", "", -1)
 	message = strings.Replace(message, "Xatu,", "", -1)
+	message = strings.Replace(message, "FE Study Bot,", "", -1)
 	s.ChannelMessageSend(m.ChannelID,  nickname + ", the current roles available are: " + message + "\nTo get a role use role join <name-of-role>\nTo create a role, use role create <name-of-role> <color>(Keep in mind that colors are in hex!)")
 }
 func Role_Caller(s *discordgo.Session, m *discordgo.MessageCreate, BotID string){
