@@ -6,8 +6,6 @@ import (
 	"os"
 	"fmt"
 	"strings"
-    "log"
-    "path/filepath"
 )
 type Commands struct {
 	Commands []Command `json:"commands"`
@@ -22,11 +20,6 @@ type Command struct {
 }
 
 func Values_For_Help() string{
-	files, err := filepath.Glob("*")
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println(files) // contains a list of all files in the current directory
 	jsonFile, err := os.Open("commands.json")
 	// if we os.Open returns an error then handle it
 	if err != nil {

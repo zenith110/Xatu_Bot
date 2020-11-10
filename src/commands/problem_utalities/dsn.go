@@ -20,7 +20,7 @@ func DSN_Embed(dsn DSN, s *discordgo.Session, m *discordgo.MessageCreate){
 		Fields: []*discordgo.MessageEmbedField{
 			&discordgo.MessageEmbedField{
 				Name:   dsn.ProblemName + " - " + dsn.SeenOn,
-				Value:  "Problem statement: " + dsn.ProblemStatement + "\nProblem code: ```" + dsn.ProblemCode + "```" + "\nSolution: " + "\n", 
+				Value:  "Problem statement: " + dsn.ProblemStatement + "\nProblem code: ```c\n" + dsn.ProblemCode + "```" + "\nSolution: " + "\n", 
 				Inline: true,
 			},
 		},
