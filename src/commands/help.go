@@ -15,8 +15,7 @@ type Command struct {
 	CommandPrefix string   `json:"command-prefix"`        
 	Name          string   `json:"name"`                  
 	Description   string   `json:"description"`           
-	Example       string   `json:"example"`               
-	Runner        string   `json:"runner"`                
+	Example       string   `json:"example"`                             
 	SubCommands   []string `json:"sub-commands,omitempty"`
 }
 
@@ -35,11 +34,10 @@ func Values_For_Help() string{
 	fmt.Println(len(inputs.Commands))
 	data := []string{}
 	for i := 0; i < len(inputs.Commands); i++{
-		fmt.Println(inputs.Commands[i].Name)
-		data = append(data, fmt.Sprintf("%s - %s  \nExample input: %s\n Sub-commands: %s\n", inputs.Commands[i].Name, inputs.Commands[i].Description, inputs.Commands[i].Example, inputs.Commands[i].SubCommands))
+		data = append(data, fmt.Sprintf("%s\n%s  \n%s\n Sub-commands: %s\n", inputs.Commands[i].Name, inputs.Commands[i].Example, inputs.Commands[i].Description, inputs.Commands[i].SubCommands))
 	}
 	message := strings.Join(data, "\n")
-	
+	message = message + "\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!"
 	// "\n\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!"
 	return message
 }

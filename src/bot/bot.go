@@ -56,18 +56,23 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
 		}else if inital_argument == "!countdown"{
 			commands.Countdown(s, m)
-		}else if strings.Contains(m.Content,"!pubsub"){
+		}else if (inital_argument == "!pubsub"){
 			commands.Pubsub_Fetch(s, m)
-		}else if strings.Contains(m.Content,"!fe"){
+		}else if (inital_argument == "!fe"){
 			commands.FeData(s, m)
-		}else if inital_argument == "!help"{
+		}else if (inital_argument == "!help"){
 			commands.Help(s, m)
-		}
-		}else if strings.Contains(m.Content, "!dog"){
+		}else if (inital_argument == "!dog"){
 			commands.Doggo_Runner(s, m)
-		}else if strings.Contains(m.Content, "!role"){
+		}else if (inital_argument == "!role"){
 			commands.Role_Caller(s,m, BotID)
+		}else if (inital_argument == "!problem"){
+			commands.Problem(s,m)
+		}else{
+			nickname := m.Author.Mention()
+			s.ChannelMessageSend(m.ChannelID, nickname + " Please use the help command to see our current commands!")
 		}
 	}
+}
 	
 	
