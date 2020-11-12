@@ -1,22 +1,42 @@
+from os import name
 from flask import Flask, render_template, request, redirect, jsonify
 from flask.json import jsonify
 import subprocess
+import docker
+import dockerhub_login
 app = Flask(__name__, static_url_path='/static')
-
 @app.route("/update/", methods =["POST", "GET"])
 def update_data():
-    print("Been pinged, let's update!")
-    print("Beginning git pull")
-    process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
-    gitpull = process.communicate()[0]
-    print("Git pull is done, now let's run the bot!")
-    bot = subprocess.run(["sudo", "nohup", "go", "run","main.go"], stdout=subprocess.PIPE)
-    bot_info = bot.communicate()[0]
+    """
+    Does some configuring for dockerhub
+    """
+    client = docker.from_env()
+    client.login(username=dockerhub_login.username, password=dockerhub_login.password)
 
-               
+    """
+    If there's a docker instance, pull the latest image from the repo
+    """
+    try:
+        client.images.pull(dockerhub_login.repo)
+    # Removes the last instance and pulls the new one
+    except:
+        client.images.remove(dockerhub_login.repo + ":latest")
+        client.images.pull(dockerhub_login.repo)
+
+    # Attempts to deploys a docker container
+    try:
+        docker_container = client.containers.run(dockerhub_login.repo + ":latest", name= "xatu")
+    # If a docker container exist with the name, remove it and make a new instance
+    except:
+        xatu = client.containers.get("xatu")
+        xatu.stop()
+        xatu.remove()
+        docker_container = client.containers.run(dockerhub_login.repo + ":latest", name= "xatu")
+    return "Now running Xatu!"
+    
 @app.route("/", methods =["POST", "GET"])
 def index():
-        return "hi"
+        return "Please use the routes to do commands"
         
     
 if __name__ == '__main__':
