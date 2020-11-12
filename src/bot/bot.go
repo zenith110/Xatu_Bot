@@ -65,7 +65,7 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}else if (inital_argument == "!dog"){
 			commands.Doggo_Runner(s, m)
 		}else if (inital_argument == "!role"){
-			commands.Role_Caller(s,m, BotID)
+			commands.RoleCaller(s,m, BotID)
 		}else if (inital_argument == "!problem"){
 			commands.Problem(s,m)
 		}else{
