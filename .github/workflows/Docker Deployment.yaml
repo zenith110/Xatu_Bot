@@ -35,9 +35,9 @@ jobs:
     - name: Dockerize
       run: |
           cd src
-          token_tag_json="Token"
-          bot_prefex="BotPrefix"
-          bot_prefix_symbol="!"
+          token_tag_json='"Token"'
+          bot_prefex='"BotPrefix"'
+          bot_prefix_symbol='"!"'
           bot_token='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json = $bot_token,\n$bot_prefex = $bot_prefix_symbol\n}" > config.json
           cat config.json
