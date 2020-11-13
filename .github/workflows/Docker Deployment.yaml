@@ -42,6 +42,7 @@ jobs:
           echo -e "{\n$token_tag_json = $bot_token,\n$bot_prex = $bot_prefix_symbol\n}" > config.json
           ls
           go build main.go
+          mv ./main ../
           cd ../
           docker build --tag xatu .
     - name: docker push
