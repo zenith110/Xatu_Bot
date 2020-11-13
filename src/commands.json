@@ -50,6 +50,17 @@
 				"join",
 				"help"
 			]
+		},
+		{
+			"command-prefix": "!animal",
+			"name": "animal",
+			"description": "Use to get animal pictures!",
+			"example": "!animal <sub-command> <argument>",
+			"sub-commands": [
+				"fetch",
+				"help",
+				"random"
+			]
 		}
 	]
 }

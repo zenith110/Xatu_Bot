@@ -1,11 +1,12 @@
 package commands
 
 import (
-	"time"
-	"github.com/bwmarrin/discordgo"
 	"fmt"
 	"math"
 	"strconv"
+	"time"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 var name string = "Countdown"
