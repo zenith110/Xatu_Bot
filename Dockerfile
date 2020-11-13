@@ -2,9 +2,12 @@
 FROM golang:1.14
 
 # set the working directory in the container
-WORKDIR /updater/
+WORKDIR /src/
+
 # Copy the binary produced by the docker instance
+RUN go get github.com/bwmarrin/discordgo
 COPY src/ .
+
 
 # command to run on container start
 CMD [ "go", "run", "main.go"]
