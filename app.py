@@ -37,6 +37,7 @@ def update_data():
         xatu = client.containers.get("xatu")
         xatu.stop()
         xatu.remove()
+        print("hello")
         now = datetime.datetime.now()
         time_stamp = str(now.strftime("%d/%m/%Y - %H:%M:%S"))
         up = DiscordWebhook(url=discord_key.api_key, content='Xatu is up again! Done at:\n' + time_stamp)
