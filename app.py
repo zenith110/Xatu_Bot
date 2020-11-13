@@ -4,6 +4,9 @@ from flask.json import jsonify
 import subprocess
 import docker
 import dockerhub_login
+from discord_webhook import DiscordWebhook, DiscordEmbed
+import datetime
+import discord_key
 app = Flask(__name__, static_url_path='/static')
 @app.route("/update/", methods =["POST", "GET"])
 def update_data():
@@ -31,6 +34,9 @@ def update_data():
         xatu = client.containers.get("xatu")
         xatu.stop()
         xatu.remove()
+        now = datetime.datetime.now()
+        time_stamp = str(now.strftime("%d/%m/%Y - %H:%M:%S"))
+        up = DiscordWebhook(url=discord_key.api_key, content='Xatu is up again! Done at:\n' + time_stamp)
         docker_container = client.containers.run(dockerhub_login.repo + ":latest", name= "xatu")
     return "Now running Xatu!"
     
