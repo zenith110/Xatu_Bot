@@ -4,7 +4,7 @@ FROM golang:1.14
 # Set the Current Working Directory inside the container
 
 # Copy the binary produced by the docker instance
-COPY src/main
+COPY src/ ./main
 
 
 
