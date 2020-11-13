@@ -33,6 +33,7 @@ def update_data():
         docker_container = client.containers.run(dockerhub_login.repo + ":latest", name= "xatu")
     # If a docker container exist with the name, remove it and make a new instance
     except:
+        print("Lets run the container!")
         xatu = client.containers.get("xatu")
         xatu.stop()
         xatu.remove()
