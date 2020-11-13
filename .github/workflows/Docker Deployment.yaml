@@ -40,7 +40,7 @@ jobs:
           bot_prefix_symbol="!"
           bot_token='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json = $bot_token,\n$bot_prex = $bot_prefix_symbol\n}" > config.json
-          echo config.json
+          cat config.json
           ls
           go build main.go
           mv ./main ../
