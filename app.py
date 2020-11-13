@@ -43,9 +43,7 @@ def update_data():
         docker_container = client.containers.run(dockerhub_login.repo + ":latest", name= "xatu")
     return "Now running Xatu!"
     
-@app.route("/", methods =["POST", "GET"])
-def index():
-        return "Please use the routes to do commands"
+
         
     
 if __name__ == '__main__':
