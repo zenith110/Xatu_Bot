@@ -4,7 +4,7 @@ FROM golang:1.14
 # Set the Current Working Directory inside the container
 
 # Copy the binary produced by the docker instance
-add  main /
+copy src/ .
 
 # command to run on container start
-CMD [ "./main"]
+CMD [ "go", "run", "main.go"]
