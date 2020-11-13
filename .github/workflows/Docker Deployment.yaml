@@ -41,7 +41,8 @@ jobs:
           bot_prefix_symbol="!"
           bot_token='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json = $bot_token,\n$bot_prex = $bot_prefix_symbol\n}" > config.json
-          
+          ls
+          go build main.go
           cd ../
           ls
           docker build --tag xatu .
