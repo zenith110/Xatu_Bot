@@ -2,7 +2,6 @@
 FROM golang:1.14
 # set the working directory in the container
 # Set the Current Working Directory inside the container
-WORKDIR $GOPATH
 
 # copy the content of the local src directory to the working directory
 COPY src/ .
