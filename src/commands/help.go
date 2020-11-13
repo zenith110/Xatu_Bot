@@ -1,11 +1,13 @@
 package commands
+
 import (
-	"github.com/bwmarrin/discordgo"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
-	"fmt"
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 type Commands struct {
 	Commands []Command `json:"commands"`
@@ -38,7 +40,7 @@ func Values_For_Help() string{
 	}
 	fmt.Println(data)
 	message := strings.Join(data, "\n")
-	message = message + "\nhttp://www.cs.ucf.edu/registration/exm/ to register for the FE exam!"
+	message = message + "\nhttps://www.cs.ucf.edu/registration/new/ to register for the FE exam!"
 	return message
 }
 func Help(s *discordgo.Session, m *discordgo.MessageCreate){
