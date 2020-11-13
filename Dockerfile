@@ -7,8 +7,7 @@ FROM golang:1.14
 COPY src/ .
 
 # install dependencies
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN go install .
 
 
 # command to run on container start
