@@ -34,7 +34,6 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Dockerize
       run: |
-          ls
           cd src
           token_tag_json="Token"
           bot_prefex="BotPrefix"
@@ -44,7 +43,6 @@ jobs:
           ls
           go build main.go
           cd ../
-          ls
           docker build --tag xatu .
     - name: docker push
       env:
