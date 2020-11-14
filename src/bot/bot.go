@@ -4,10 +4,11 @@ package bot
 // Edited by Abrahan Nevarez for the FE book club
 import (
 	"fmt"
+	"strings"
+
+	"../commands"
 	"../config"
 	"github.com/bwmarrin/discordgo"
-	"strings"
-	"../commands"
 	// "reflect"
 	// "errors"
 )
@@ -50,24 +51,26 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 			return
 		}
 		split_arguments := strings.Split(m.Content, " ")
-		inital_argument := strings.ToLower(split_arguments[0])
+		InitalArgument := strings.ToLower(split_arguments[0])
 		
 		if m.Content == "!ping" {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
-		}else if inital_argument == "!countdown"{
+		}else if InitalArgument == "!countdown"{
 			commands.Countdown(s, m)
-		}else if (inital_argument == "!pubsub"){
+		}else if (InitalArgument == "!pubsub"){
 			commands.Pubsub_Fetch(s, m)
-		}else if (inital_argument == "!fe"){
+		}else if (InitalArgument == "!fe"){
 			commands.FeData(s, m)
-		}else if (inital_argument == "!help"){
+		}else if (InitalArgument == "!help"){
 			commands.Help(s, m)
-		}else if (inital_argument == "!dog"){
+		}else if (InitalArgument == "!dog"){
 			commands.Doggo_Runner(s, m)
-		}else if (inital_argument == "!role"){
+		}else if (InitalArgument == "!role"){
 			commands.RoleCaller(s,m, BotID)
-		}else if (inital_argument == "!problem"){
+		}else if (InitalArgument == "!problem"){
 			commands.Problem(s,m)
+		}else if(InitalArgument == "!animal"){
+			commands.AnimalRunner(s,m)
 		}else{
 			nickname := m.Author.Mention()
 			s.ChannelMessageSend(m.ChannelID, nickname + " Please use the help command to see our current commands!")
