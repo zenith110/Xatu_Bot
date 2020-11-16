@@ -1,11 +1,13 @@
 package commands
-import(
-	"strings"
-	"github.com/bwmarrin/discordgo"
+
+import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
-	"fmt"
+	"strings"
+
 	"./problem_utalities"
+	"github.com/bwmarrin/discordgo"
 )
 type DSN struct {
 	ProblemName      string `json:"Problem_Name"`     
@@ -26,7 +28,6 @@ type Stack struct {
 
 func Problem_Help(state *discordgo.Session, m *discordgo.MessageCreate, Problem string, Formated_String string){
 	fetchurl := "https://fetchit.dev/FE/questions/all" + Problem + "/"
-	fmt.Println(fetchurl)
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore
@@ -72,12 +73,22 @@ func Problem(s *discordgo.Session, m *discordgo.MessageCreate){
 				Problem_Help(s, m, "dsn", "DSN")
 			}else if(sub_argument == "random"){
 				problem_utalities.Random_DSN(s, m)
+			}else if(sub_argument == "term"){
+				term_name := strings.ToLower(split_arguments[3])
+				problem_utalities.Individual_DSN(term_name, s, m)
+			}else{
+				Problem_Help(s, m, "dsn", "DSN")
 			}
 		}else if(material_subject == "stack"){
 			if(sub_argument == "help"){
 				Problem_Help(s, m, "stacks", "Stack")
 			}else if(sub_argument == "random"){
 				problem_utalities.Random_Stack(s, m)
+			}else if(sub_argument == "term"){
+				term_name := strings.ToLower(split_arguments[3])
+				problem_utalities.Individual_Stack(term_name, s, m)
+			}else{
+				Problem_Help(s, m, "stacks", "Stack")
 			}
 		}
 	}

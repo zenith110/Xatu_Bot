@@ -25,13 +25,14 @@
 			"command-prefix": "!problem",
 			"name": "problem",
 			"description": "Use to grab a problem from a FE!",
-			"example": "!problem <sub-command> <year-term>",
+			"example": "!problem <sub-command> <sub-command> <year-term>",
 			"sub-commands": [
 				"dsn",
 				"stack",
 				"bst",
 				"tries",
-				"help"
+				"help",
+				"term"
 			]
 		},
 		{

@@ -1,10 +1,12 @@
 package problem_utalities
-import(
-	"github.com/bwmarrin/discordgo"
-	"time"
+
+import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"time"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 type Stack struct {

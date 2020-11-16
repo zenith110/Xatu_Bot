@@ -1,11 +1,11 @@
 package commands
 
-import
-(
-	"github.com/bwmarrin/discordgo"
-	"strings"
+import (
 	"fmt"
 	"strconv"
+	"strings"
+
+	"github.com/bwmarrin/discordgo"
 	// "runtime/debug"
 )
 
@@ -51,8 +51,11 @@ func RoleCreator(SplitArguments []string, s *discordgo.Session, m *discordgo.Mes
 	}
 	// Gets us the specified role id
 	color := SplitArguments[3]
+
+	color = strings.Replace(color, "#", "", -1)
 	FinalColor := RoleColor(color)
 	RoleID := RoleIDFinder(guildroles, "new role")
+	
 	FinalRole, FinalErr := s.GuildRoleEdit(guild.GuildID, string(RoleID), role, FinalColor, false, 1, true)
 	if(FinalErr != nil){
 		fmt.Println(FinalRole)
