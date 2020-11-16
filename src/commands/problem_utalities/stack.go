@@ -75,6 +75,7 @@ func Individual_Stack(name string, s *discordgo.Session, m *discordgo.MessageCre
 		if err != nil{
 		}
 		json.Unmarshal(bodyData, &stack)
+		Stack_Embed(stack, s, m)
 		return stack
 	}
 }
