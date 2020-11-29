@@ -36,7 +36,7 @@ jobs:
       run: |
           cd src
           token_tag_json='"Token"'
-          bot_prefex'"BotPrefix"'
+          bot_prefex='"BotPrefix"'
           bot_prefix_symbol='"!"'
           error_hook='"ErrorHook"'
           bot_token='"${{ secrets.BOT_KEY }}"'
