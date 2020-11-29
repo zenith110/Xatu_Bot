@@ -43,7 +43,7 @@ jobs:
           webhook='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json: $bot_token,\n$bot_prefex: $bot_prefix_symbol\n}" > config.json
           cd utils 
-          echo -e "{\n$error_hook: $webhook\n}" > discordwebhooks.json
+          echo -e "{\n$webhook\n}" > discordwebhooks.json
           cat discordwebhooks.json
           cd ../../
           docker build --tag xatu .
