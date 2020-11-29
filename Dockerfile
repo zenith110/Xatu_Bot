@@ -1,5 +1,5 @@
 # set base image (host OS)
-FROM golang:1.14-alpine
+FROM golang:1.14-alpine3.12
 
 # set the working directory in the container
 WORKDIR /src/
