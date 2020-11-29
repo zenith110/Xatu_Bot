@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"../utils"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -71,22 +72,24 @@ func AnimalEmbed(animal Animal, SpeciesName string) *discordgo.MessageEmbed{
 
 func AnimalFetch(AnimalName string) Animal{
 	AnimalUrl := "https://fetchit.dev/species/?name="+ AnimalName
-	var animal AnimalData
+	var AnimalHolder AnimalData
+	var animal Animal
 	// Sends a post request to the url above
 	req, err := http.Get(AnimalUrl)
 	// Will always be NIL, ignore
 	if err == nil{
 	}
 	// If we cannot find the dog, simply change the status code
-	if req.StatusCode == 500{
-		animal.Animal[0].Status = "500"
-		return animal.Animal[0]
+	if req.StatusCode == 404{
+		fmt.Println("I fucked up")
+		animal.Status = "500"
+		return animal
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil{
 		}
-		json.Unmarshal(bodyData, &animal)
-		return animal.Animal[0]
+		json.Unmarshal(bodyData, &AnimalHolder)
+		return AnimalHolder.Animal[0]
 	}
 }
 
@@ -99,9 +102,9 @@ func AllAnimals(FormattedString string) string{
 	if err == nil{
 	}
 	// If we cannot find the dog, simply change the status code
-	if req.StatusCode == 500{
-		animal.Status = "500"
-		return "500"
+	if req.StatusCode == 404{
+		animal.Status = "404"
+		return "404"
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil{
@@ -135,8 +138,13 @@ func AnimalRunner(s *discordgo.Session, m *discordgo.MessageCreate){
 	if(SubArgument == "fetch"){
 		species := strings.ToLower(StringSplit[2])
 		AnimalInfo := AnimalFetch(species)
+		if(AnimalInfo.Status == "500"){
+			utils.ContainerErrorHandler(s, m)
+			s.ChannelMessageSend(m.ChannelID, "```That species is not available, please check the help sub argument!```")
+		}else{
 		AnimalData := AnimalEmbed(AnimalInfo, species)
 		s.ChannelMessageSendEmbed(m.ChannelID, AnimalData)
+		}
 	}else if(SubArgument == "help"){
 		AnimalNames := AllAnimals("name")
 		AnimalHelpInfo := AnimalHelp(AnimalNames)

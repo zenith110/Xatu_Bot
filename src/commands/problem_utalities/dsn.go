@@ -66,15 +66,16 @@ func Individual_DSN(name string, s *discordgo.Session, m *discordgo.MessageCreat
 	if err == nil{
 	}
 	// If we cannot find the FE exam, simply exit 
-	if req.StatusCode == 500{
-		dsn.Status = "500"
+	if req.StatusCode == 404{
+		dsn.Status = "404"
+		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + name + " in our system,  use the help sub argument  to find the list of available dsn problems!```")
 		return dsn
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil{
 		}
 		json.Unmarshal(bodyData, &dsn)
-		DSN_Embed(dsn, s, m)
+		dsn.Status = "200"
 		return dsn
 	}
 }

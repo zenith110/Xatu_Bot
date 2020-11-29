@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"../utils"
 	"./problem_utalities"
 	"github.com/bwmarrin/discordgo"
 )
@@ -26,7 +27,7 @@ type Stack struct {
 	Status string 
 }
 
-func Problem_Help(state *discordgo.Session, m *discordgo.MessageCreate, Problem string, Formated_String string){
+func Problem_Help(state *discordgo.Session, m *discordgo.MessageCreate, Problem string, Formated_String string)int{
 	fetchurl := "https://fetchit.dev/FE/questions/all" + Problem + "/"
 	// Sends a post request to the url above
 	req, err := http.Get(fetchurl)
@@ -34,8 +35,10 @@ func Problem_Help(state *discordgo.Session, m *discordgo.MessageCreate, Problem 
 	if err != nil{
 	}
 	// Cannot process request
-	if req.StatusCode == 500{
-		state.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current exam list, please try again later")
+	if req.StatusCode == 404{
+		state.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current " + Problem + " data, please try again later")
+		utils.ContainerErrorHandler(state, m)
+		return 404
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err == nil{
@@ -62,6 +65,7 @@ func Problem_Help(state *discordgo.Session, m *discordgo.MessageCreate, Problem 
 		problem_list := strings.Join(s, ", ")
 		state.ChannelMessageSend(m.ChannelID, "```Hello, these are the current " + Problem + " problems available!\n" + problem_list + "```")
 	}
+	return 200
 }
 // Looks for secondary argument 
 func Problem(s *discordgo.Session, m *discordgo.MessageCreate){
@@ -75,18 +79,30 @@ func Problem(s *discordgo.Session, m *discordgo.MessageCreate){
 				problem_utalities.Random_DSN(s, m)
 			}else if(sub_argument == "term"){
 				term_name := strings.ToLower(split_arguments[3])
-				problem_utalities.Individual_DSN(term_name, s, m)
+				DSN := problem_utalities.Individual_DSN(term_name, s, m)
+				if(DSN.Status == "404"){
+					utils.ContainerErrorHandler(s, m)
+				}else if(DSN.Status == "200"){
+					problem_utalities.DSN_Embed(DSN, s, m)
+				}
 			}else{
 				Problem_Help(s, m, "dsn", "DSN")
 			}
 		}else if(material_subject == "stack"){
+			fmt.Println(sub_argument)
 			if(sub_argument == "help"){
 				Problem_Help(s, m, "stacks", "Stack")
 			}else if(sub_argument == "random"){
 				problem_utalities.Random_Stack(s, m)
 			}else if(sub_argument == "term"){
 				term_name := strings.ToLower(split_arguments[3])
-				problem_utalities.Individual_Stack(term_name, s, m)
+				Stack := problem_utalities.Individual_Stack(term_name, s, m)
+				if(Stack.Status == "404"){
+					fmt.Println("Status is wrong")
+					utils.ContainerErrorHandler(s, m)
+				}else if(Stack.Status == "200"){
+					problem_utalities.Stack_Embed(Stack, s, m)
+				}
 			}else{
 				Problem_Help(s, m, "stacks", "Stack")
 			}

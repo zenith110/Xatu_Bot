@@ -33,12 +33,12 @@ func Values_For_Help() string{
 	if(jsonErr != nil){
 		fmt.Println(jsonErr)
 	}
-	fmt.Println(len(inputs.Commands))
+
 	data := []string{}
 	for i := 0; i < len(inputs.Commands); i++{
 		data = append(data, fmt.Sprintf("%s\n%s  \n%s\n Sub-commands: %s\n", inputs.Commands[i].Name, inputs.Commands[i].Example, inputs.Commands[i].Description, inputs.Commands[i].SubCommands))
 	}
-	fmt.Println(data)
+	
 	message := strings.Join(data, "\n")
 	message = message + "\nhttps://www.cs.ucf.edu/registration/new/ to register for the FE exam!"
 	return message

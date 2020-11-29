@@ -1,12 +1,14 @@
 package commands
 
 import (
-	"time"
-	"github.com/bwmarrin/discordgo"
-	"io/ioutil"
-	"strings"
-	"net/http"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"strings"
+	"time"
+
+	"../utils"
+	"github.com/bwmarrin/discordgo"
 )
 type FE struct {
 	FeTerm                string `json:"fe_term"`                 
@@ -75,8 +77,6 @@ func fe_value(fe FE) string{
 	
  }
 
-
-
 func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) FE{
 	fetchurl := "https://fetchit.dev/FE/exam/?name=" + name
 	var f FE
@@ -86,8 +86,10 @@ func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) 
 	if err == nil{
 	}
 	// If we cannot find the FE exam, simply exit 
-	if req.StatusCode == 500{
-		f.status = "500"
+	if req.StatusCode == 404{
+		f.status = "404"
+		s.ChannelMessageSend(m.ChannelID, "```Seems we were not able to fetch the " + name + " exam data, please try again later```")
+		utils.ContainerErrorHandler(s, m)
 		return f
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
@@ -96,7 +98,7 @@ func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) 
 
 		jsonErr := json.Unmarshal(bodyData, &f)
 		if(jsonErr != nil){
-			s.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current exam list, please try again later")
+			
 		}
 		return f
 	}
@@ -129,8 +131,9 @@ func Help_Exam_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 	if err != nil{
 	}
 	// Cannot process request
-	if req.StatusCode == 500{
-		state.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current exam list, please try again later")
+	if req.StatusCode == 404{
+		state.ChannelMessageSend(m.ChannelID, "```Seems we were not able to fetch the current exam list, please try again later```")
+		utils.ContainerErrorHandler(state, m)
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err == nil{
@@ -163,9 +166,8 @@ func Help_Exam_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 func Individual_Exams(s *discordgo.Session, m *discordgo.MessageCreate, fe_exam_term string){
 	fe_exam_term = strings.Replace(fe_exam_term, " ", "-", -1)
 	fe := Web_Request(fe_exam_term, s, m)
-	if(fe.status == "500"){
-		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + fe_exam_term + " in our system, try again later!```")
-	}else{
+	if(fe.status == "404"){
+	}else if(fe.status == "200"){
 		values := fe_value(fe)
 		Embed(s, m, values, fe)
 	}

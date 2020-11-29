@@ -87,8 +87,9 @@ func Web_Hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubs
 	if err != nil{
 		utils.ContainerErrorHandler(s, m)
 	}
-	if req.StatusCode == 500{
-		s.ChannelMessageSend(m.ChannelID, "Unfortunately, we do not have " + text + " in our system, try again later!")
+	if req.StatusCode == 404{
+		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + text + " in our system, check the help sub argument for the list of pubsubs!```")
+		utils.ContainerErrorHandler(s, m)
 		return pub
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
@@ -108,8 +109,9 @@ func Help_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 	if err != nil{
 	}
 	// Cannot process request
-	if req.StatusCode == 500{
+	if req.StatusCode == 404{
 		state.ChannelMessageSend(m.ChannelID, "Seems we were not able to fetch the current pubsub list, please try again later")
+		utils.ContainerErrorHandler(state, m)
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err == nil{
