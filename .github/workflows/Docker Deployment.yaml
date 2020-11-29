@@ -38,10 +38,14 @@ jobs:
           token_tag_json='"Token"'
           bot_prefex='"BotPrefix"'
           bot_prefix_symbol='"!"'
+          error_hook='"ErrorHook"'
           bot_token='"${{ secrets.BOT_KEY }}"'
+          webhook='"${{ secrets.BOT_KEY }}"'
           echo -e "{\n$token_tag_json: $bot_token,\n$bot_prefex: $bot_prefix_symbol\n}" > config.json
-          cat config.json
-          cd ../
+          cd utils 
+          echo -e "{\n$error_hook: $webhook\n}" > discordwebhooks.json
+          cat discordwebhooks.json
+          cd ../../
           docker build --tag xatu .
     - name: docker push
       env:
