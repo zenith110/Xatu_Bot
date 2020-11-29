@@ -2,6 +2,9 @@
 ## Table of Contents
 1. [Goals](#goals)
 2. [Setup](#setup)
+    1. [Config file](#config-file)
+    2. [Installing dependecies](#installing-dependecies)
+    3. [Running the bot itself](#running-the-bot-itself)
 ### Goals
     To serve the FE Book Club and the UCF Community with resources to pass and excel at the CS Foundation Exam.
     To encourage the continuation of one's learning through developing plugins for the bot
