@@ -5,7 +5,7 @@ bin/
 pkg/
 
 # The config file for the bot
-src/config.json/
+src/config.json
 
 dockerhub_login.py
 
