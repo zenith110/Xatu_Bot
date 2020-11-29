@@ -69,7 +69,7 @@ func Individual_Stack(name string, s *discordgo.Session, m *discordgo.MessageCre
 	// If we cannot find the FE exam, simply exit 
 	if req.StatusCode == 404{
 		stack.Status = "404"
-		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + name + " in our system, use the help system to find the list!```")
+		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + name + " in our system, use the help sub argument  to find the list of available stack problems!```")
 		return stack
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)

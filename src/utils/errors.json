@@ -1,0 +1,11 @@
+{
+ "embeds": [
+  {
+   "title": "Error report",
+   "timestamp": "2020-11-29T13:49:41-05:00",
+   "description": "```go\ngoroutine 41 [running]:\nruntime/debug.Stack(0xbfe9193140182d74, 0xe8d9c07d, 0x17ae900)\n\tc:/go/src/runtime/debug/stack.go:24 +0xa5\n_/C_/Users/Abrahan/Downloads/Xatu_Bot/src/utils.ContainerErrorHandler(0xc000124480, 0xc0001900b0)\n\tC:/Users/Abrahan/Downloads/Xatu_Bot/src/utils/errors.go:46 +0x125\n_/C_/Users/Abrahan/Downloads/Xatu_Bot/src/commands.Doggo_Runner(0xc000124480, 0xc0001900b0)\n\tC:/Users/Abrahan/Downloads/Xatu_Bot/src/commands/dog.go:139 +0x259\n_/C_/Users/Abrahan/Downloads/Xatu_Bot/src/bot.messageHandler(0xc000124480, 0xc0001900b0)\n\tC:/Users/Abrahan/Downloads/Xatu_Bot/src/bot/bot.go:65 +0x2c5\ngithub.com/bwmarrin/discordgo.messageCreateEventHandler.Handle(0x15ad2a8, 0xc000124480, 0x153a8c0, 0xc0001900b0)\n\tC:/gocode/src/github.com/bwmarrin/discordgo/eventhandlers.go:497 +0x52\ncreated by github.com/bwmarrin/discordgo.(*Session).handle\n\tC:/gocode/src/github.com/bwmarrin/discordgo/event.go:171 +0x118\n```",
+   "color": 9851206,
+   "Thumbnail": null
+  }
+ ]
+}
