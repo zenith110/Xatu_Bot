@@ -49,26 +49,14 @@ func ContainerErrorHandler(s *discordgo.Session, m *discordgo.MessageCreate){
 		},
 	}
  
-	file, _ := json.MarshalIndent(data, "", " ")
- 
-	_ = ioutil.WriteFile("utils/errors.json", file, 0644)
-
-	
-	errorJson, errorJsonError := os.Open("utils/errors.json")
-	if(errorJsonError != nil){
-
-	}
+	errorEmbed, _ := json.Marshal(data)
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	errorValue, _ := ioutil.ReadAll(errorJson)
 	var webhook Webhooks
 	WebhookError := json.Unmarshal(byteValue, &webhook)
 	if(WebhookError != nil){
 		fmt.Println("We failed, seems the hook has no values!")
 	}
 	
-	req, err := http.Post(webhook.ErrorHook, "application/json", bytes.NewBuffer(errorValue))
-	if(err != nil){
-
-	}
+	req, _ := http.Post(webhook.ErrorHook, "application/json", bytes.NewBuffer(errorEmbed))
 	fmt.Println((req))
 }
