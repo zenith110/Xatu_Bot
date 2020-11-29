@@ -10,3 +10,4 @@ config.json
 api_keys/
 
 token.json
+utils/discordwebhooks.json

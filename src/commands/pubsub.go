@@ -1,12 +1,15 @@
 package commands
-import(
-	"strings"
-	"net/http"
-	"github.com/bwmarrin/discordgo"
-	"io/ioutil"
-	"regexp"
-	"time"
+
+import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"regexp"
+	"strings"
+	"time"
+
+	"../utils"
+	"github.com/bwmarrin/discordgo"
 )
 type Pubsub struct{
 	sub_name,
@@ -82,6 +85,7 @@ func Web_Hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubs
 	req, err := http.Get(fetchurl)
 	// Will always be NIL, ignore
 	if err != nil{
+		utils.ContainerErrorHandler(s, m)
 	}
 	if req.StatusCode == 500{
 		s.ChannelMessageSend(m.ChannelID, "Unfortunately, we do not have " + text + " in our system, try again later!")
@@ -158,6 +162,7 @@ func Individual_Subs(s *discordgo.Session, m *discordgo.MessageCreate, secondary
 }
 
 func Pubsub_Fetch(s *discordgo.Session, m *discordgo.MessageCreate){
+	
 			// If we have a secondary argument continue down this conditional
 			if(len(m.Content) > 7) {
 			// Grabs the name from the user who inputted it

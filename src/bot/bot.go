@@ -9,8 +9,6 @@ import (
 	"../commands"
 	"../config"
 	"github.com/bwmarrin/discordgo"
-	// "reflect"
-	// "errors"
 )
 
 var BotID string

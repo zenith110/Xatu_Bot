@@ -1,14 +1,17 @@
 package commands
+
 import (
-	"time"
-	"github.com/bwmarrin/discordgo"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"strings"
-	"regexp"
-	"net/http"
-	"encoding/json"
 	"math/rand"
+	"net/http"
+	"regexp"
+	"strings"
+	"time"
+
+	"../utils"
+	"github.com/bwmarrin/discordgo"
 )
 
 
@@ -87,8 +90,8 @@ func Dog_Web(Dog_Name string) Dog{
 	if err == nil{
 	}
 	// If we cannot find the dog, simply change the status code
-	if req.StatusCode == 500{
-		dog.status = "500"
+	if req.StatusCode == 404{
+		dog.status = "404"
 		return dog
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
@@ -131,8 +134,9 @@ func Doggo_Runner(s *discordgo.Session, m *discordgo.MessageCreate){
 
 		if (Doggo.status == "OK"){
 			s.ChannelMessageSendEmbed(m.ChannelID, Dog_Message)
-		}else if (Doggo.status == "500"){
-
+		}else if (Doggo.status == "404"){
+			s.ChannelMessageSend(m.ChannelID, "```" + Dog_Name + " not available!\nPlease look at https://dog.ceo/api/breeds/list/all for all breeds```")
+			utils.ContainerErrorHandler(s, m)
 		}
 	}else{
 		Random_Doggo := Random_Dog(s, m)
