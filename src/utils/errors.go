@@ -24,7 +24,7 @@ func ContainerErrorHandler(s *discordgo.Session, m *discordgo.MessageCreate){
 	var webhook Webhooks
 	WebhookError := json.Unmarshal(byteValue, &webhook)
 	if(WebhookError != nil){
-
+		fmt.Println("We failed, seems the hook has no values!")
 	}
 	EmbedData, err := json.Marshal(map[string]string{
 		"content": "```go\nError reported on " + time.Now().Format(time.RFC3339) + "\n"+ string(debug.Stack()) + "```",
