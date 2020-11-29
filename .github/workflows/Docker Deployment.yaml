@@ -40,7 +40,7 @@ jobs:
           bot_prefix_symbol='"!"'
           error_hook='"ErrorHook"'
           bot_token='"${{ secrets.BOT_KEY }}"'
-          webhook='"${{ secrets.BOT_KEY }}"'
+          webhook='"${{ secrets.ERROR_HOOK }}"'
           echo -e "{\n$token_tag_json: $bot_token,\n$bot_prefex: $bot_prefix_symbol\n}" > config.json
           cd utils 
           echo -e "{\n$webhook\n}" > discordwebhooks.json
