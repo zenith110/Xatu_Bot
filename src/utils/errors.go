@@ -29,9 +29,7 @@ type Embed struct {
 
 type ErrorStruct struct {
 Embeds                     []Embed `json:"embeds"`
-
 }
-
 
 func ContainerErrorHandler(s *discordgo.Session, m *discordgo.MessageCreate){
 	jsonFile, err := os.Open("utils/discordwebhooks.json")

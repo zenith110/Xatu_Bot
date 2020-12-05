@@ -91,6 +91,10 @@ func Web_Hit(text string, s *discordgo.Session, m *discordgo.MessageCreate) Pubs
 		s.ChannelMessageSend(m.ChannelID, "```Unfortunately, we do not have " + text + " in our system, check the help sub argument for the list of pubsubs!```")
 		utils.ContainerErrorHandler(s, m)
 		return pub
+	}else if req.StatusCode == 503{
+		s.ChannelMessageSend(m.ChannelID, "```Seems the site is down, try again sometime other time!```")
+		utils.ContainerErrorHandler(s, m)
+		return pub
 	}else{
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err == nil{
@@ -144,11 +148,8 @@ func Help_Info(state *discordgo.Session, m *discordgo.MessageCreate){
 func Individual_Subs(s *discordgo.Session, m *discordgo.MessageCreate, secondary_args string){
 	// Removes all spaces in the name
 	if !strings.Contains(secondary_args ," "){
-		fmt.Println("Let's not modify it!")
 	}else{
-		fmt.Println("Found a space, let's strip it!")
 		secondary_args = strings.Replace(secondary_args, " ", "-", -1)
-	
 	}
 	sub := Web_Hit(secondary_args, s, m)
 
