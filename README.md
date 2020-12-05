@@ -6,6 +6,8 @@
     2. [Installing dependecies](#installing-dependecies)
     3. [Running the bot itself](#running-the-bot-itself)
 3. [Creating your first plugin](#creating-your-first-plugin)
+	1. [Utilities](#utilities)
+		1. [Errors](#errors)
 ### Goals
     To serve the FE Book Club and the UCF Community with resources to pass and excel at the CS Foundation Exam.
     To encourage the continuation of one's learning through developing plugins for the bot.
@@ -90,6 +92,11 @@ You will want to replace _, _ = s.ChannelMessageSend(m.ChannelID, "pong"), with 
 
 And with that, congrulations! You've made your first plugin. Now head on over to pull requests, and make a pull request comparing your fork to the repo, and submit it to begin contributing!
 
+#### Utilities
+To ensure debugging within a live enviroment, we have some utilities that will assist with the process.
+
+##### Errors
+ContainerErrorHandler from the package utils will be used to logging all errors, and will assist in debugging.
 
 
 
