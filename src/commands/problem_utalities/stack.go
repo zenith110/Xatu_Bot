@@ -26,7 +26,7 @@ func Stack_Embed(stack Stack, s *discordgo.Session, m *discordgo.MessageCreate){
 		Fields: []*discordgo.MessageEmbedField{
 			&discordgo.MessageEmbedField{
 				Name:   stack.ProblemName + " - " + stack.SeenOn,
-				Value:  "||" + stack.Solution + "||", 
+				Value:  "Solution: ||" + stack.Solution + "||", 
 				Inline: true,
 			},
 		},
