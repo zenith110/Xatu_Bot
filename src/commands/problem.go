@@ -28,7 +28,6 @@ type Stack struct {
 // Looks for secondary argument 
 func Problem(s *discordgo.Session, m *discordgo.MessageCreate){
 		split_arguments := strings.Split(m.Content, " ")
-		fmt.Println(split_arguments)
 		material_subject := strings.ToLower(split_arguments[1])
 		sub_argument := strings.ToLower(split_arguments[2])
 		if(material_subject == "help"){
