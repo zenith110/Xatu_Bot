@@ -2,6 +2,7 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -78,6 +79,7 @@ func fe_value(fe FE) string{
  }
 
 func Web_Request(name string, s *discordgo.Session, m *discordgo.MessageCreate) FE{
+	fmt.Println("I'm in bois")
 	fetchurl := "https://fetchit.dev/FE/exam/?name=" + name
 	var f FE
 	// Sends a post request to the url above
@@ -169,6 +171,7 @@ func Individual_Exams(s *discordgo.Session, m *discordgo.MessageCreate, fe_exam_
 	if(fe.status == "404"){
 	}else if(fe.status == "200"){
 		values := fe_value(fe)
+		fmt.Println("hi")
 		Embed(s, m, values, fe)
 	}
 }
