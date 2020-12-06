@@ -1,0 +1,5 @@
+# The config file for the bot
+config.json/
+
+utils/discordwebhooks.json
+
