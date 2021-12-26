@@ -81,7 +81,7 @@ func AnimalFetch(AnimalName string) Animal{
 	}
 	// If we cannot find the dog, simply change the status code
 	if req.StatusCode == 404{
-		fmt.Println("I fucked up")
+		fmt.Println("I messed up")
 		animal.Status = "500"
 		return animal
 	}else{
